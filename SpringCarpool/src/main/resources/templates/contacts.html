@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>PROJECT CARPOOL</title>
+<div th:replace="fragments/css :: css"></div>
+	                             
+ </head>
+ <body>
+   <div th:replace="fragments/navbar :: navbar"></div> 
+   
+   <div sec:authorize="isFullyAuthenticated()" th:replace="fragments/contacts :: contacts"></div> 
+   <div th:replace="fragments/footer :: footer"></div> 
+   <div th:replace="fragments/js :: js"></div> 
+ </body>
+</html>

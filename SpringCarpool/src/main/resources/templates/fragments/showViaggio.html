@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div th:fragment="showViaggio">
+
+<div class="modal fade" id="showViaggioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header border-bottom-0">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+          	</div>
+		<div class="modal-body">
+			<div class="form-title text-center">
+          		<h4>Viaggi</h4>
+		</div>
+				<form th:action="@{/viaggio_prenota}" th:object="${prenotazione}" method="post">
+		<table>
+		<tr>
+			<th>ID Viaggio</th>
+			<th>ID Utente</th>
+			<th>Partenza</th>
+			<th>Destinazione</th>
+		</tr>
+		<tr  th:each="viaggio : ${viaggi}">
+		<code class="hljs xml">
+			<th th:text="${viaggio.viaggioId}"></code></th>
+			<th th:text="${viaggio.userId}"></th>
+			<th th:text="${viaggio.partenza}"></th>
+			<th th:text="${viaggio.Destinazione}"></th>
+		</tr>
+		</table>
+		</form>
+
+		<form th:action="@{/viaggio_prenota}" th:object="${prenotazione}" method="post">
+	    <fieldset>
+		<code class="hljs xml">
+		<th><input type="radio" th:each="viaggio : ${viaggi}" th:text="${viaggio.viaggioId}" value="${viaggio.viaggioId}"></code></th>
+		<input type="submit" value="Submit now">
+		   </fieldset>
+		
+		</form>
+		
+		<code class="hljs xml"><form th:action="@{/viaggio_prenota}" th:object="${prenotazione}" method="post">
+    <fieldset>
+        <legend>What is Your Favorite Pet?</legend>
+        <input type="radio" name="favorite_pet" value="Cats">Cats<br>
+        <input type="radio" name="favorite_pet" value="Dogs">Dogs<br>
+        <input type="radio" name="favorite_pet" value="Birds">Birds<br>
+        <br>
+        <input type="submit" value="Submit now">
+    </fieldset>
+</form></code>
+
+<form action="@{/viaggio_prenota}" target="result" method="get">
+<p>What is your gender?</p>
+<input type="radio" name="gender" value="male"> Male
+<input type="radio" name="gender" value="female"> Female
+<p><input type="submit" value="Submit"></p>
+</form>
+<h3>Result:</h3>
+<iframe name="result" style="height:100px;width:200px;"></iframe>
+
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+
+</body>
+</html>

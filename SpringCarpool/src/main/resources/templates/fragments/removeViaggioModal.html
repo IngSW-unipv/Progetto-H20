@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div th:fragment="removeViaggioModal">
+
+<div class="modal fade" id="removeViaggioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header border-bottom-0">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">×</span>
+	            </button>
+          	</div>
+		<div class="modal-body">
+			<div class="form-title text-center">
+          		<h4>Viaggi disponibili</h4>
+		</div>
+		<table>
+		<tr>
+			<th>ID Viaggio</th>
+			<th>ID Utente</th>
+			<th>Partenza</th>
+			<th>Destinazione</th>
+			<th>Distanza dal viaggio test</th>
+		</tr>
+		<tr th:each="viaggio : ${viaggioOrdered}">
+			<td th:text="${viaggio.viaggioId}"></td>
+			<td th:text="${viaggio.userId}"></td>
+			<td th:text="${viaggio.partenza}"></td>
+			<td th:text="${viaggio.destinazione}"></td>
+			<td th:text="${viaggio.distanza}"></td>
+		</tr>
+		</table>
+		<form th:action="@{/viaggio_delete}" th:object="${prenotazione}" method="post">
+		<h4>Elimina il viaggio digitando il suo l'ID </h4>
+			  <div class="form-group">
+			    <label for="col-4 col-form-label">ID Viaggio</label>
+			    <input type="text" class="form-control" th:field="*{ID_viaggio}" placeholder="ID del viaggio...">
+			  </div>
+		  <button type="submit" value="viaggio_prenota" class="btn btn-primary">Submit</button>
+	
+		</form>
+				
+		</div>
+	</div>
+	</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="registerModal">
+	<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-title text-center">
+              <h4>Registrati</h4>
+            </div>
+            
+            <div class="d-flex flex-column text-center">
+            <form th:action="@{/user_register}" th:object="${user}" method="post" style="max-width: 600px; margin: 0 auto;">
+			<div class="m-3">
+			<div class="form-group row">
+				<label class="col-4 col-form-label">E-mail: </label>
+				<div class="col-8">
+					<input type="email" th:field="*{email}" class="form-control" required>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Password: </label>
+				<div class="col-8">
+					<input type="password" th:field="*{password}" class="form-control" 
+							required minlength="6" maxlength="10"/>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">First Name: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{firstName}" class="form-control" 
+							required minlength="2" maxlength="20"/>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-4 col-form-label">Last Name: </label>
+				<div class="col-8">
+					<input type="text" th:field="*{lastName}" class="form-control" 
+							required minlength="2" maxlength="20" />
+				</div>
+			</div>
+               
+              
+               <!-- <div class="form-group">
+                  <input type="email" id="email" name="email" class="form-control" maxlength="30" placeholder="Your email..."  required/>
+                </div>
+                <div class="form-group">
+                  <input type="password" id="password" name="password" class="form-control" maxlength="30" placeholder="Your password...">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="first_name" name="first_name" class="form-control" maxlength="20" placeholder="Your first name...">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="last_name" name="last_name" class="form-control" maxlength="20" placeholder="Your last name...">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="country" name="country" class="form-control" maxlength="20" placeholder="Your last country...">
+                </div>-->
+                <button type="submit" value="Sign Up" class="btn btn-info btn-block btn-round">Register</button>
+               </div>
+              </form> 
+
+          </div>
+        </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <div class="signin-section">Already registered? <a class="text-info" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#login1Modal"> Login</a>.</div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>PROJECT CARPOOL</title>
+	<div th:replace="fragments/css :: css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div sec:authorize="!isFullyAuthenticated()" th:replace="fragments/home_notLogged :: home_notLogged"></div>
+	
+	<div sec:authorize="isFullyAuthenticated()">
+		<div th:switch="${page}">
+			<div th:case="'pageProfilo'"> <div th:replace="fragments/pageProfilo :: pageProfilo"></div></div>
+			<div th:case="'pagePrenota'"> <div th:replace="fragments/pagePrenota :: pagePrenota" ></div></div>
+			<!-- * for default case -->
+			<div th:case="*"><div th:replace="fragments/pageMappa :: pageMappa" ></div></div>
+		</div>
+	</div>
+	
+	<!--
+	<div sec:authorize="isFullyAuthenticated()">
+		<div th:if= "${pageProfilo}" ><div th:replace="fragments/profilo :: profilo"></div></div>
+		<div th:if= "${pagePrenota}" ><div th:replace="fragments/pagePrenota :: pagePrenota" ></div></div>
+		<div th:if= "${isHome && !pagePrenota && !pageProfilo}" > <div th:replace="fragments/pageMappa :: pageMappa" ></div></div>
+	</div>
+	-->
+	<div sec:authorize="!isFullyAuthenticated()" th:replace="fragments/contacts :: contacts"></div> 
+	<div th:replace="fragments/footer :: footer"></div> 
+	<div th:replace="fragments/js :: js"></div> 
+	
+</body>
+
+<div th:replace="fragments/loginModal :: loginModal"></div><!-- il modal si mette fuori dal body -->>
+<div th:replace="fragments/registerModal :: registerModal"></div>
+</html>

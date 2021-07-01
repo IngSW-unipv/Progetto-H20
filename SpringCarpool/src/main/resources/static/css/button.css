@@ -1,0 +1,87 @@
+@charset "ISO-8859-1";
+/* Stile comune a tutti i tipi di pulsante */
+
+     .Ombra_01 {
+    color: Blue;
+    text-shadow: 2px 2px;
+    font-size: 36px;
+}
+.Ombra_02 {
+    color: red;
+    text-shadow: 0.1em 0.1em 0.15em #333;
+    font-size: 48px;
+}
+.Ombra_03 {
+    color: black;
+    text-shadow: #87CEEB 1px 3px;
+    font-size: 36px;
+}
+.Ombra_04 {
+    color: Black;
+    text-shadow: 1px 3px 3px rgba(135, 206, 235, 1);
+    font-size: 36px;
+}
+.Ombra_05 {
+    color: Black;
+    text-shadow: 2px 2px 2px #48577D;
+    font-size: 36px;
+}
+        
+.pulsante {
+ display: block; /* Valida solo per la demo */
+ margin-bottom: 20px; /* Valida solo per la demo */
+ position: relative;
+ cursor: pointer;
+ padding: 19px;
+ font-weight: bold;
+ text-decoration: none;
+ color: #333;
+ border: none;
+ border-radius: 5px;
+}
+.pulsante:active {top: 3px}
+
+.rosso {
+ background-color: #cc3747;
+ -webkit-box-shadow:
+ 0px 0px 0px 1px #8d1b27 inset,
+ 0px 0px 0px 2px #dd4356 inset,
+ 0px 4px 0px 0px #8d1b27,
+ 0px 5px 0px 0px #65141c,
+ 0px 5px 0px 0px rgba(0,0,0,.15);
+ box-shadow:
+ 0px 0px 0px 1px #8d1b27 inset,
+ 0px 0px 0px 2px #dd4356 inset,
+ 0px 4px 0px 0px #8d1b27,
+ 0px 5px 0px 0px #65141c,
+ 0px 5px 0px 0px rgba(0,0,0,.15);
+}
+.rosso:hover {
+ background-color: #dd3c4d;
+}
+.rosso:active {
+ background-color: #bb3241;
+ -webkit-box-shadow:
+ 0px 0px 0px 1px #8d1b27 inset,
+ 0px 0px 0px 2px #dd4356 inset,
+ 0px 0px 0px 0px #8d1b27,
+ 0px 1px 0px 0px #8d1b27,
+ 0px 2px 0px 0px rgba(0,0,0,.15);
+ box-shadow:
+ 0px 0px 0px 1px #8d1b27 inset,
+ 0px 0px 0px 2px #dd4356 inset,
+ 0px 0px 0px 0px #8d1b27,
+ 0px 1px 0px 0px #8d1b27,
+ 0px 2px 0px 0px rgba(0,0,0,.15);
+}
+
+/* Dimensioni */
+.piccolo {
+ font-size: 10px;
+}
+.medio {
+ font-size: 16px;
+}
+.grande {
+ font-size: 22px;
+}

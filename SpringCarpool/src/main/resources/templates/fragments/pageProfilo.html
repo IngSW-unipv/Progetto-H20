@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<div th:fragment="pageProfilo">
+
+<div th:replace="fragments/cssProfilo :: cssProfilo"></div>
+  
+<div class="tm-main-content" id="top">
+<div class="tm-top-bar-bg"></div>
+ <section>
+  <br><br><br><br><br><br><br>
+   <div class="container">
+    <div class="row align-items-center">
+     <div class="col-lg-6 order-lg-2">
+
+      <div class="card">
+       <p>Mail utente:</p>
+       <h3><span sec:authentication="name">Username</span></h3>
+       <tr>
+		<p>Nome:
+		<h3><span th:text="${#authentication.getPrincipal().getUser().getFirstName()} +' '+ ${#authentication.getPrincipal().getUser().getLastName()}"></span></h3>
+		<p>Ruolo:</p>
+		<div sec:authorize="hasAnyAuthority('AUTISTA')"><h3><a href="/new">AUTISTA</a></h3></div>
+		<br>
+		<div sec:authorize="hasAnyAuthority('PASSEGGERO')"><a href="/new">PASSEGGERO</a></div>
+		<br>
+		<div class="profile-images-card">
+		 <div class="profile-images"><img th:src="@{${user1.photosImagePath}}" /></div>
+		  <div class="custom-file">
+		 <button type="button" class="btn btn-info btn-round" data-toggle="modal" data-target="#uploadImageModal"><i class="bi bi-box-arrow-in-right"></i> Aggiungi immagine</button>
+		 </div>
+		</div>
+		
+		<script src="js/jquery-latest.min.js"></script>
+	   </div>
+      </div>
+	  <div class="col-lg-6 order-lg-1">
+	   <div class="p-2">
+	   <h2><div class="special_cont"><span class="Ombra_02">Profilo Utente... </span></div>
+	   <!--nome utente da implementare-->
+	   </h2>
+		<p><h4>
+		Benvenuti nell'area profilo.<br> Qui troverete le vostre
+		informazioni ed eventuali viaggi prenotati/creati!<br>
+		</h4></p>
+   </div>
+  </div>
+ </div>
+</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row align-items-center">
+			<div align="center" class="col-lg-6 order-lg-1">
+				<div class="p-8">
+					<h2 class="display-4">OPZIONI VIAGGIO</h2>
+					<div class="col-lg-6 order-lg-2">
+						<div class="p-1">
+							<img class="img-fluid rounded-circle" src="img/01.jpg" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 order-lg-1">
+				<div class="p-5">
+					<button class="pulsante rosso piccolo" data-toggle="modal" data-target="#usereditModal">USER EDIT</button>
+					<button class="pulsante rosso piccolo" data-toggle="modal" data-target="#passwordeditModal">PASSWORD EDIT</button>
+					<button class="pulsante rosso piccolo" data-toggle="modal" data-target="#ruoloAddModal">ADD RUOLO</button>
+					<button class="pulsante rosso piccolo" data-toggle="modal" data-target="#removeRuoloModal">REMOVE RUOLO</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+	<div  th:replace="fragments/uploadImageModal :: uploadImageModal"></div>
+	<div  th:replace="fragments/useredit :: useredit"></div>
+	<div  th:replace="fragments/passwordeditModal :: passwordeditModal"></div>
+	<div  th:replace="fragments/removeRuoloModal :: removeRuoloModal"></div>
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+</div>
+</head>
+<body>
+</body>
+</html>

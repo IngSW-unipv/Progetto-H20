@@ -1,0 +1,271 @@
+/* for map */
+
+
+#googlemaps {
+	height: 100%;
+    width: 100%;
+	position:absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+      
+      @use postcss-cssnext;
+
+/* config.css */
+:root {
+	--baseColor: #606468;
+}
+
+
+/* helpers/grid.css */
+
+:root {
+	--gridMaxWidth: 30rem;
+	--gridWidth: 90%;
+}
+
+
+
+#grid {
+	position: relative;
+	z-index: 1;
+  
+	margin-left: auto;
+	margin-right: 10%;
+	max-width: var(--gridMaxWidth);
+	width: var(--gridWidth);
+	margin-top: 20%;
+}
+
+/* helpers/hidden.css */
+
+.hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* helpers/icon.css */
+
+:root {
+  --iconFill: var(--baseColor);
+}
+
+
+:root {
+  --htmlFontSize: 100%;
+
+  --bodyBackgroundColor: #2c3338;
+  --bodyColor: var(--baseColor);
+  --bodyFontFamily: 'Open Sans';
+  --bodyFontFamilyFallback: sans-serif;
+  --bodyFontSize: 0.875rem;
+  --bodyFontWeight: 400;
+  --bodyLineHeight: 1.5;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: var(--htmlFontSize);
+  height: 100%;
+}
+/* modules/anchor.css */
+
+:root {
+  --anchorColor: #eee;
+}
+
+a {
+  color: var(--anchorColor);
+  outline: 0;
+  text-decoration: none;
+}
+
+a:focus,
+a:hover {
+  text-decoration: underline;
+}
+
+/* modules/form.css */
+
+:root {
+  --formFieldMargin: 0.875rem;
+}
+
+input {
+  background-image: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  transition: background-color 0.3s;
+}
+
+input[type='Button'] {
+  cursor: pointer;
+}
+
+.form {
+  margin: calc(var(--formFieldMargin) * -1);
+}
+
+.form input[type='password'],
+.form input[type='text'],
+.form input[type='Button'] {
+  width: 100%;
+}
+
+.form__field {
+  display: flex;
+  margin: var(--formFieldMargin);
+}
+
+.form__input {
+  flex: 1;
+}
+
+/* modules/login.css */
+
+:root {
+  --loginBorderRadus: 0.25rem;
+  --loginColor: #eee;
+
+  --loginInputBackgroundColor: #3b4148;
+  --loginInputHoverBackgroundColor: #434a52;
+
+  --loginLabelBackgroundColor: #363b41;
+
+  --loginButtonBackgroundColor: #ea4c88;
+  --loginButtonColor: #eee;
+  --loginButtonHoverBackgroundColor: #d44179;
+}
+
+.login {
+  color: var(--loginColor);
+}
+
+.login label,
+.login input[type='text'],
+.login input[type='Button'] {
+  border-radius: 0;
+  padding: 1rem;
+}
+
+.login label {
+  background-color: var(--loginLabelBackgroundColor);
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  width: 3rem;
+}
+
+.login input[type='password'],
+.login input[type='text'] {
+  background-color: var(--loginInputBackgroundColor);
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.login input[type='password']:focus,
+.login input[type='password']:hover,
+.login input[type='text']:focus,
+.login input[type='text']:hover {
+  background-color: var(--loginInputHoverBackgroundColor);
+}
+
+.login input[type='Button'] {
+  background-color: var(--loginButtonBackgroundColor);
+  color: var(--loginButtonColor);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.login input[type='Button']:focus,
+.login input[type='Button']:hover {
+  background-color: var(--loginButtonHoverBackgroundColor);
+}
+
+/* modules/text.css */
+
+
+p {
+  margin-bottom: var(--paragraphMarginBottom);
+  margin-top: var(--paragraphMarginTop);
+}
+
+.text--center {
+  text-align: center;
+}
+
+
+/* per slider */
+
+html, body {
+	 height: 100vh;
+	 width: 100vw;
+	 background-color: #151515;
+}
+ .switch-button {
+	 width: 480px;
+	 height: 50px;
+	 text-align: center;
+	 position: relative;
+	 left: 50%;
+	 top: 50%;
+	 transform: translate3D(-50%, -50%, 0);
+	 will-change: transform;
+	 z-index: 197 !important;
+	 cursor: pointer;
+	 transition: 0.3s ease all;
+	 border: 1px solid white;
+	 margin-bottom: -25px;
+}
+
+ .switch-button-case {
+	 display: inline-block;
+	 background: none;
+	 width: 49%;
+	 height: 100%;
+	 color: white;
+	 position: relative;
+	 border: none;
+	 transition: 0.3s ease all;
+	 text-transform: uppercase;
+	 letter-spacing: 5px;
+	 padding-bottom: 1px;
+}
+ .switch-button-case:hover {
+	 color: grey;
+	 cursor: pointer;
+}
+ .switch-button-case:focus {
+	 outline: none;
+}
+ .switch-button .active {
+	 color: #151515;
+	 background-color: white;
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 width: 50%;
+	 height: 100%;
+	 z-index: -1;
+	 transition: 0.3s ease-out all;
+}
+ .switch-button .active-case {
+	 color: #151515;
+}
+ 

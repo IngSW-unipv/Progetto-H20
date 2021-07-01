@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="loginModal2">
+    <!-- INCLUDE YOUR OWN CSS CLASS -->
+    <!-- Modal -->
+<div class="modal fade" id="login1Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-title text-center">
+              <h4>Login</h4>
+            </div>
+            <div class="d-flex flex-column text-center">
+              <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Your email address...">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Your password...">
+                </div>
+                 <div id="generalErrorMessage" class="error-lbl" style="display:none;"></div>
+                <div th:if="${param.error}">Invalid username and password</div>
+                <button type="submit" value="login" class="btn btn-info btn-block btn-round" >Login</button>
+              </form>
+                            
+          </div>
+        </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <div class="signup-section">Not a member yet? <a class="text-info" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#registerModal"> Sign Up</a>.</div>
+          </div>
+          <p class="text-danger" th:if="${param.loginError}" th:text="'Wrong username or password'"></p>
+      </div>
+    </div>
+   </div>
+        
+//Modal trigger function.
+<script type="text/javascript">
+	function openModal() {
+		$('#login1Modal').modal('show');
+	}
+</script>
+<!-- AJAX LOGIN (POST) -->
+<script type="text/javascript">
+$(document).ready(function() {
+		
+	clearError();
+		
+	$('#login').click(function(event) {
+						
+		event.preventDefault();
+		var EMAIL = $("#email").val();
+ 		var PASSWORD = $("#password").val();
+			
+		$.ajax({
+				
+			type : "POST",
+			url : "login", 
+			data : "email=" + EMAIL + "&password=" + PASSWORD,
+			success : function(response) {
+					
+				if(response.status == '401') {
+					showFormError(response.errorMessageList);
+				} else {
+					//everything is O.K. user logged in successfully.
+					$('#exampleModal').modal('hide');
+ 						window.location.reload();
+					}
+			},
+			error : function(ex) {
+				console.log(ex);
+			}
+		});
+	});
+		
+	//var PasswordField = $('#Password');
+	//var EmailField = $('#Email');
+	var GeneralErrorField = $('#generalErrorMessage');
+		
+	function showFormError(response) {
+		clearForm();
+		GeneralErrorField.css("display", "block").html("FORM FAIL", "Incorrect Email or Password!");
+		
+		//show error messages that comming from backend and change border to red.
+		/*for(var i=0; i < errorVal.length; i++) {
+			if(errorVal[i].fieldName === 'EMAIL') {
+				clearForm();
+				EmailField.attr("placeholder", errorVal[i].message).css("border", " 1px solid red");
+			}
+			else if(errorVal[i].fieldName === 'PASSWORD'){
+				PasswordField.val('');
+				PasswordField.attr("placeholder", errorVal[i].message).css("border", " 1px solid red");
+			}
+			else if(errorVal[i].fieldName === 'FORM FAIL'){
+				clearForm();
+				GeneralErrorField.css("display", "block").html(errorVal[i].message);
+			}
+		}*/
+	}
+	//remove error warning tags and change tips
+	function clearError() {
+		//clear all and return it as default.
+		$('#Email').focus(function() {
+			clearForm();
+			EmailField.css("border", "1px solid lightgrey");
+			EmailField.attr("placeholder", "Email address");
+		});	
+		$('#Password').focus(function() {
+			PasswordField.val('');
+			PasswordField.css("border", "1px solid lightgrey");
+			PasswordField.attr("placeholder", "Password");
+		});
+	}
+	//clear fields and hide error tag.
+	function clearForm() {
+		EmailField.val('');
+		PasswordField.val('');
+		GeneralErrorField.css("display", "none");
+	}
+		
+});
+</script>
+</div>
+
+</body>
+</html>

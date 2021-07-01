@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div th:fragment="removeRuoloModal">
+
+<div class="modal fade" id="removeRuoloModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+ 
+			<form th:action="@{/ruolo_remove}" method="post">
+  <fieldset>
+    <legend>Seleziona il ruolo da eliminare:</legend>
+    <div>
+      <input type="radio" id="contactChoice1"
+       name="ruolo" value="1" checked>
+      <label for="contactChoice1">AUTISTA</label>
+
+      <input type="radio" id="contactChoice2"
+       name="ruolo" value="2">
+      <label for="contactChoice2">PASSEGGERO</label>
+
+    </div>
+    <div>
+		  <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </fieldset>
+</form>
+		  
+		 
+		</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+</body>
+</html>
