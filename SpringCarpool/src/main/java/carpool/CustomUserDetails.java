@@ -14,7 +14,11 @@ import carpool.data.User;
  
 public class CustomUserDetails implements UserDetails {
  
-    private User user;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private User user;
      
     public CustomUserDetails(User user) {
         this.user = user;
@@ -47,7 +51,7 @@ public class CustomUserDetails implements UserDetails {
     }
     
 	public Long getId() {
-		return user.getID_user();
+		return user.getUserId();
 	}
 	
 	public String getFirstName() {

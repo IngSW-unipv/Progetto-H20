@@ -21,34 +21,34 @@
               <h4>Register</h4>
             </div>
 
-		<form th:action="@{/viaggio_register}" th:object="${viaggio}" method="post">
+		<form th:action="@{/registra-viaggio}" th:object="${viaggio}" method="post">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Partenza</label>
-		    <input type="text" class="form-control" th:field="*{partenza}" placeholder="Partenza">
+		    <input type="text" class="form-control" th:field="*{start}" placeholder="Partenza">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">PartenzaX</label>
-		    <input type="text" class="form-control" th:field="*{partenzaX}" placeholder="PartenzaX">
+		    <input type="text" class="form-control" th:field="*{startX}" placeholder="PartenzaX">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">PartenzaY</label>
-		    <input type="text" class="form-control" th:field="*{partenzaY}" placeholder="PartenzaY">
+		    <input type="text" class="form-control" th:field="*{startY}" placeholder="PartenzaY">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">Destinazione</label>
-		    <input type="text" class="form-control" th:field="*{destinazione}" placeholder="Destinazione">
+		    <input type="text" class="form-control" th:field="*{end}" placeholder="Destinazione">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">DestinazioneX</label>
-		    <input type="text" class="form-control" th:field="*{destinazioneX}" placeholder="DestinazioneX">
+		    <input type="text" class="form-control" th:field="*{endX}" placeholder="DestinazioneX">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">DestinazioneY</label>
-		    <input type="text" class="form-control" th:field="*{destinazioneY}" placeholder="DestinazioneY">
+		    <input type="text" class="form-control" th:field="*{endY}" placeholder="DestinazioneY">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">Posti totali</label>
-		    <input type="text" class="form-control" th:field="*{postiTotali}" placeholder="Quanti posti ci sono?">
+		    <input type="text" class="form-control" th:field="*{totalSeats}" placeholder="Quanti posti ci sono?">
 		  </div>
 		  <button type="submit" value="AddViaggio" class="btn btn-primary">Submit</button>
 		</form>

@@ -29,18 +29,18 @@
 			<th>Distanza dal viaggio test</th>
 		</tr>
 		<tr th:each="viaggio : ${viaggioOrdered}">
-			<td th:text="${viaggio.viaggioId}"></td>
+			<td th:text="${viaggio.tripId}"></td>
 			<td th:text="${viaggio.userId}"></td>
-			<td th:text="${viaggio.partenza}"></td>
-			<td th:text="${viaggio.destinazione}"></td>
-			<td th:text="${viaggio.distanza}"></td>
+			<td th:text="${viaggio.start}"></td>
+			<td th:text="${viaggio.end}"></td>
+			<td th:text="${viaggio.distance}"></td>
 		</tr>
 		</table>
 		<form th:action="@{/viaggio_delete}" th:object="${prenotazione}" method="post">
 		<h4>Elimina il viaggio digitando il suo l'ID </h4>
 			  <div class="form-group">
 			    <label for="col-4 col-form-label">ID Viaggio</label>
-			    <input type="text" class="form-control" th:field="*{ID_viaggio}" placeholder="ID del viaggio...">
+			    <input type="text" class="form-control" th:field="*{tripId}" placeholder="ID del viaggio...">
 			  </div>
 		  <button type="submit" value="viaggio_prenota" class="btn btn-primary">Submit</button>
 	

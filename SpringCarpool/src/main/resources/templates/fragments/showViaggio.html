@@ -30,9 +30,9 @@
 		</tr>
 		<tr  th:each="viaggio : ${viaggi}">
 		<code class="hljs xml">
-			<th th:text="${viaggio.viaggioId}"></code></th>
+			<th th:text="${viaggio.tripId}"></code></th>
 			<th th:text="${viaggio.userId}"></th>
-			<th th:text="${viaggio.partenza}"></th>
+			<th th:text="${viaggio.start}"></th>
 			<th th:text="${viaggio.Destinazione}"></th>
 		</tr>
 		</table>
@@ -41,7 +41,7 @@
 		<form th:action="@{/viaggio_prenota}" th:object="${prenotazione}" method="post">
 	    <fieldset>
 		<code class="hljs xml">
-		<th><input type="radio" th:each="viaggio : ${viaggi}" th:text="${viaggio.viaggioId}" value="${viaggio.viaggioId}"></code></th>
+		<th><input type="radio" th:each="viaggio : ${viaggi}" th:text="${viaggio.tripId}" value="${viaggio.tripId}"></code></th>
 		<input type="submit" value="Submit now">
 		   </fieldset>
 		
