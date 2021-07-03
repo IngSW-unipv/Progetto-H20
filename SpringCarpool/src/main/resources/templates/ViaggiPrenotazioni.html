@@ -13,55 +13,55 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 	<div class="contenitore_viaggi"> 
   		<h2 class="header_blocco_viaggi" th:if="${not #lists.isEmpty(viaggi)}">Elenco dei viaggi attivi</h2>
-	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.deleted==false and Viaggio.ended==false}" >
-			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.tripDate, 'dd-MM-yyyy HH:mm')}|"></h2>
+	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.cancellato==false and Viaggio.concluso==false}" >
+			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.viaggioDate, 'dd-MM-yyyy HH:mm')}|"></h2>
 <!--		  qui iterato viaggio per viaggio (all'interno specificare il th:each per percorsi)-->
 			<div class="wrapper_viaggio">
 		  		<div class="descrizione_viaggio">
-					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.start}|"></p>
-					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.end}|"></p>
+					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.partenza}|"></p>
+					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.destinazione}|"></p>
 <!-- 					<p class="data_viaggio" th:text="|Viaggio Del: ${#dates.format(standardDate, 'dd-MM-yyyy HH:mm')}|"></p> -->
-					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.tripLength, 1, 'COMMA', 2, 'POINT')} Km|"></p>
+					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.lunghezza_percorso, 1, 'COMMA', 2, 'POINT')} Km|"></p>
 					<div class="break"></div> <!-- break -->
-					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.priceKm}|">tariffa(€/km): tariffa(€) </p>
-					<th:block th:with="var = ${Viaggio.tripLength * Viaggio.priceKm}">
+					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.tariffaKm}|">tariffa(€/km): tariffa(€) </p>
+					<th:block th:with="var = ${Viaggio.lunghezza_percorso * Viaggio.tariffaKm}">
 					<p class="totale_costo"  th:text="|Prezzo Massimo: ${#numbers.formatDecimal(var, 0, 'COMMA', 2, 'POINT')}€|"></p>
 					</th:block>
 		
 				
-					<p class="bagaglio_prenotato" th:text="|Volume bagaglio prenotato: ${Viaggio.reservedTrunk}|"></p>
-					<p class="posti_prenotati" th:text="|Totale posti prenotati: ${Viaggio.reservedSeats} di ${Viaggio.totalSeats}|"></p>
+					<p class="bagaglio_prenotato" th:text="|Volume bagaglio prenotato: ${Viaggio.totale_bagaglio_prenotato}|"></p>
+					<p class="posti_prenotati" th:text="|Totale posti prenotati: ${Viaggio.postiPrenotati} di ${Viaggio.postiTotali}|"></p>
 			  		</div>
 		  		<div class="funzioni_viaggio">
 <!--				FORM restituisce il campo "id_viaggio" su uno o altro url (quindi ottenibile con uno o altro get) in base a bottone che clicco -->
-					<form th:action="@{/cancella-viaggio}" method="post" th:object="${Viaggio}">
+					<form th:action="@{/cancella_viaggio}" method="post" th:object="${Viaggio}">
 						<p class="paragrafo_funzioni_viaggio"></p>
-						<input type="hidden" th:value="*{tripId}" id="tripId" name="tripId"/>
-						<input class="button_funzioni_viaggio" value="cancella viaggio" type="submit" th:if="${Viaggio.tripDate.after(#dates.createNow())}" > 
-						<input th:formaction="@{/concludi-viaggio}" class="button_funzioni_viaggio" value="concludi viaggio" type="submit" th:if="${Viaggio.tripDate.before(#dates.createNow())}"> 
+						<input type="hidden" th:value="*{viaggioId}" id="viaggioId" name="viaggioId"/>
+						<input class="button_funzioni_viaggio" value="cancella viaggio" type="submit" th:if="${Viaggio.viaggioDate.after(#dates.createNow())}" > 
+						<input th:formaction="@{/concludi_viaggio}" class="button_funzioni_viaggio" value="concludi viaggio" type="submit" th:if="${Viaggio.viaggioDate.before(#dates.createNow())}"> 
 		<!--			  da far appparire solo dopo la data del viaggio -->
 					</form>
 		  		</div>
 			</div>
-			<div class="contenitore_prenotazione" th:each="Prenotazione, iterPrenotazioni :  ${Viaggio.reservations}" th:classappend="${(Prenotazione.paymentMade ? 'prenotazione_pagata' : '') + (Prenotazione.deleted ? 'prenotazione_cancellata' : '')}">
+			<div class="contenitore_prenotazione" th:each="Prenotazione, iterPrenotazioni :  ${Viaggio.prenotazioni_associate}" th:classappend="${(Prenotazione.pagamento_effettuato ? 'prenotazione_pagata' : '') + (Prenotazione.cancellata ? 'prenotazione_cancellata' : '')}">
 		  		<h3 class="header_prenotazione" th:text="|Prenotazione # ${iterPrenotazioni.count}|"></h3>
 <!--			qui specifico oggetto di prenotazione da iterare-->
 		  		<div class="descrizione_prenotazione">
-					<p class="nome_passeggero" th:text="|nome Paseggero: ${Prenotazione.user.firstName}|"></p>
-					<p class="cognome_passeggero" th:text="|cognome Paseggero: ${Prenotazione.user.lastName}|">c</p>
-					<p class="telefono_passeggero" th:text="|Telefono: ${Prenotazione.user.phoneNumber}|"></p>  
+					<p class="nome_passeggero" th:text="|nome Paseggero: ${Prenotazione.usertemp.firstName}|"></p>
+					<p class="cognome_passeggero" th:text="|cognome Paseggero: ${Prenotazione.usertemp.lastName}|">c</p>
+					<p class="telefono_passeggero" th:text="|Telefono: ${Prenotazione.usertemp.telefono}|"></p>  
 					<div class="break"></div> <!-- break -->
-					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${Prenotazione.meetingAddress}|"></p>
-					<p class="posti" th:text="|Posti prenotati: ${Prenotazione.reservedSeats}|" ></p>
-					<p class="bagaglio" th:text="|Bagaglio prenotato: ${Prenotazione.reservedTrunk}|" ></p>
+					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${Prenotazione.indirizzo_incontro}|"></p>
+					<p class="posti" th:text="|Posti prenotati: ${Prenotazione.numero_posti}|" ></p>
+					<p class="bagaglio" th:text="|Bagaglio prenotato: ${Prenotazione.bagagliaio_prenotato}|" ></p>
 					  
 				</div>
-				<h2 class="informazioni_prenotazione_pagato" th:if="${Prenotazione.paymentMade==true}"> Prenotazione è stata pagata</h2>
-		  		<h2 class="informazioni_prenotazione_cancellata" th:if="${Prenotazione.deleted==true}"> Prenotazione è stata cancellata</h2>
+				<h2 class="informazioni_prenotazione_pagato" th:if="${Prenotazione.pagamento_effettuato==true}"> Prenotazione è stata pagata</h2>
+		  		<h2 class="informazioni_prenotazione_cancellata" th:if="${Prenotazione.cancellata==true}"> Prenotazione è stata cancellata</h2>
 		  		<div class="funzioni_prenotazione">	
-					<form th:action="@{/cancella_prenotazione}" method="post"  th:object="${Prenotazione}" th:if="${Prenotazione.paymentMade==false  and Prenotazione.deleted==false}">
+					<form th:action="@{/cancella_prenotazione}" method="post"  th:object="${Prenotazione}" th:if="${Prenotazione.pagamento_effettuato==false  and Prenotazione.cancellata==false}">
 						<p class="paragrafo_funzioni_prenotazione">se prenotazione è stata cancellata </p>
-						<input type="hidden" th:value="*{reservationId}" name="reservationId" id="reservationId"/>
+						<input type="hidden" th:value="*{ID_prenotazione}" name="ID_prenotazione" id="ID_prenotazione"/>
 						<input class="button_funzioni_prenotazione" value="cancella prenotazione" type="submit"  > 
 						<input th:formaction="@{/pagamento_ricevuto}" class="button_funzioni_prenotazione" value="pagamento ricevuto" type="submit"> 
 					</form>
@@ -73,30 +73,30 @@
 
 	<div class="contenitore_viaggi"> 
   		<h2 class="header_blocco_viaggi" th:if="${not #lists.isEmpty(viaggi)}">Elenco dei viaggi conclusi</h2>
-	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.deleted==false and Viaggio.ended==true}" >
-			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.tripDate, 'dd-MM-yyyy HH:mm')}|"></h2>
+	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.cancellato==false and Viaggio.concluso==true}" >
+			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.viaggioDate, 'dd-MM-yyyy HH:mm')}|"></h2>
 <!--		  qui iterato viaggio per viaggio (all'interno specificare il th:each per percorsi)-->
 			<div class="wrapper_viaggio_concluso_cancellato">
 		  		<div class="descrizione_viaggio">
-					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.start}|"></p>
-					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.end}|"></p>
+					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.partenza}|"></p>
+					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.destinazione}|"></p>
 <!-- 					<p class="data_viaggio" th:text="|Viaggio Del: ${#dates.format(standardDate, 'dd-MM-yyyy HH:mm')}|"></p> -->
-					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.tripLength, 1, 'COMMA', 2, 'POINT')} Km|"></p>
-					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.priceKm}|">tariffa(€/km): tariffa(€) </p>
+					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.lunghezza_percorso, 1, 'COMMA', 2, 'POINT')} Km|"></p>
+					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.tariffaKm}|">tariffa(€/km): tariffa(€) </p>
 			  		</div>
 			</div>
-			<div class="contenitore_prenotazione" th:each="Prenotazione, iterPrenotazioni :  ${Viaggio.reservations}" th:classappend="${(Prenotazione.paymentMade ? 'prenotazione_pagata' : 'prenotazione_non_pagata')}" th:if="${Prenotazione.deleted}==false">
-		  		<h3 class="header_prenotazione" th:if="${Prenotazione.paymentMade}==false">Prenotazione non risulta pagata!</h3>
-		  		<h3 class="header_prenotazione" th:if="${Prenotazione.paymentMade}==true">Prenotazione conclusa e pagata</h3>
+			<div class="contenitore_prenotazione" th:each="Prenotazione, iterPrenotazioni :  ${Viaggio.prenotazioni_associate}" th:classappend="${(Prenotazione.pagamento_effettuato ? 'prenotazione_pagata' : 'prenotazione_non_pagata')}" th:if="${Prenotazione.cancellata}==false">
+		  		<h3 class="header_prenotazione" th:if="${Prenotazione.pagamento_effettuato}==false">Prenotazione non risulta pagata!</h3>
+		  		<h3 class="header_prenotazione" th:if="${Prenotazione.pagamento_effettuato}==true">Prenotazione conclusa e pagata</h3>
 		  		
 <!--			qui specifico oggetto di prenotazione da iterare-->
 		  		<div class="descrizione_prenotazione">
-					<p class="nome_passeggero" th:text="|nome Paseggero: ${Prenotazione.user.firstName}|"></p>
-					<p class="cognome_passeggero" th:text="|cognome Paseggero: ${Prenotazione.user.lastName}|">c</p>
+					<p class="nome_passeggero" th:text="|nome Paseggero: ${Prenotazione.usertemp.firstName}|"></p>
+					<p class="cognome_passeggero" th:text="|cognome Paseggero: ${Prenotazione.usertemp.lastName}|">c</p>
 				</div>
-				<div class="dettagli_recensione" th:if="${Prenotazione.review} != null">	
-					<p class="punteggio" th:text="|Punteggio: ${Prenotazione.review.score}|"></p>
-					<p class="recensione_testo" th:text="|Recensione: ${Prenotazione.review.reviewText}|"></p>
+				<div class="dettagli_recensione" th:if="${Prenotazione.tmprecensione} != null">	
+					<p class="punteggio" th:text="|Punteggio: ${Prenotazione.tmprecensione.score}|"></p>
+					<p class="recensione_testo" th:text="|Recensione: ${Prenotazione.tmprecensione.testo_recensione}|"></p>
 					
 		 		</div>
       		 </div>
@@ -105,16 +105,16 @@
 
 	<div class="contenitore_viaggi"> 
   		<h2 class="header_blocco_viaggi" th:if="${not #lists.isEmpty(viaggi)}">Elenco dei viaggi cancellati</h2>
-	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.deleted==true and Viaggio.ended==false}" >
-			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.tripDate, 'dd-MM-yyyy HH:mm')}|"></h2>
+	 	<div class="contenitore_viaggio" th:each="Viaggio,iterStat :  ${#lists.sort(viaggi, byViaggioDate)}" th:if="${Viaggio.cancellato==true and Viaggio.concluso==false}" >
+			<h2 class="header_viaggi" th:text="|Viaggio del: ${#dates.format(Viaggio.viaggioDate, 'dd-MM-yyyy HH:mm')}|"></h2>
 <!--		  qui iterato viaggio per viaggio (all'interno specificare il th:each per percorsi)-->
 			<div class="wrapper_viaggio_concluso_cancellato">
 		  		<div class="descrizione_viaggio">
-					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.start}|"></p>
-					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.end}|"></p>
+					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${Viaggio.partenza}|"></p>
+					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${Viaggio.destinazione}|"></p>
 <!-- 					<p class="data_viaggio" th:text="|Viaggio Del: ${#dates.format(standardDate, 'dd-MM-yyyy HH:mm')}|"></p> -->
-					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.tripLength, 1, 'COMMA', 2, 'POINT')} Km|"></p>
-					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.priceKm}|">tariffa(€/km): tariffa(€) </p>
+					<p class="lunghezza" th:text="|Lunghezza del viaggio: ${#numbers.formatDecimal(Viaggio.lunghezza_percorso, 1, 'COMMA', 2, 'POINT')} Km|"></p>
+					<p class="tariffa" th:text="|Tariffa (€/Km): ${Viaggio.tariffaKm}|">tariffa(€/km): tariffa(€) </p>
 			  		</div>
 			</div>
     	</div>
@@ -122,28 +122,28 @@
 
 	<div class="contenitore_prenotazione_passeggero"> 
   		<h2 class="header_blocco_prenotazioni" th:if="${not #lists.isEmpty(prenotazioni_utente_input)}">Elenco delle prenotazioni attive</h2>
-	 	<div class="contenitore_prenotazioni_passeggero" th:each="prenotazione,iterStat :  ${prenotazioni_utente_input}" th:if="${prenotazione.deleted==false and viaggi_prenotazioni[iterStat.index].ended==false}" th:classappend="${(prenotazione.paymentMade ? 'prenotazione_pagata' : '')}" >
- 			<h2 class="header_prenotazioni" th:text="|Prenotazione per il viaggio del: ${#dates.format(viaggi_prenotazioni[iterStat.index].tripDate, 'dd-MM-yyyy HH:mm')}|"></h2>
+	 	<div class="contenitore_prenotazioni_passeggero" th:each="prenotazione,iterStat :  ${prenotazioni_utente_input}" th:if="${prenotazione.cancellata==false and viaggi_prenotazioni[iterStat.index].concluso==false}" th:classappend="${(prenotazione.pagamento_effettuato ? 'prenotazione_pagata' : '')}" >
+ 			<h2 class="header_prenotazioni" th:text="|Prenotazione per il viaggio del: ${#dates.format(viaggi_prenotazioni[iterStat.index].viaggioDate, 'dd-MM-yyyy HH:mm')}|"></h2>
  			<div class="wrapper_prenotazione_passeggero">
  		  		<div class="descrizione_prenotazione">
- 					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${viaggi_prenotazioni[iterStat.index].start}|"></p> 
- 					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${viaggi_prenotazioni[iterStat.index].end}|"></p> 
- 					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${prenotazioni_utente_input[iterStat.index].meetingAddress}|"></p>
+ 					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${viaggi_prenotazioni[iterStat.index].partenza}|"></p> 
+ 					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${viaggi_prenotazioni[iterStat.index].destinazione}|"></p> 
+ 					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${prenotazioni_utente_input[iterStat.index].indirizzo_incontro}|"></p>
 					<div class="break"></div> <!-- break -->
-					<p class="posti" th:text="|Posti prenotati: ${prenotazione.reservedSeats}|" ></p>
-					<p class="bagaglio" th:text="|Bagaglio prenotato: ${prenotazione.reservedTrunk}|" ></p>
- 					<p class="tariffa" th:text="|Tariffa (€/Km): ${viaggi_prenotazioni[iterStat.index].priceKm}|">tariffa(€/km): tariffa(€) </p>
+					<p class="posti" th:text="|Posti prenotati: ${prenotazione.numero_posti}|" ></p>
+					<p class="bagaglio" th:text="|Bagaglio prenotato: ${prenotazione.bagagliaio_prenotato}|" ></p>
+ 					<p class="tariffa" th:text="|Tariffa (€/Km): ${viaggi_prenotazioni[iterStat.index].tariffaKm}|">tariffa(€/km): tariffa(€) </p>
  					<p class="nome_autista" th:text="|Nome autista: ${autisti[iterStat.index].firstName}|"></p>  
  					<p class="cognome autista" th:text="|Cognome Autista: ${autisti[iterStat.index].lastName}|"></p> 
- 					<p class="telefono_autista" th:text="|Telefono Autista: ${autisti[iterStat.index].phoneNumber}|"></p>  
+ 					<p class="telefono_autista" th:text="|Telefono Autista: ${autisti[iterStat.index].telefono}|"></p>  
  			  	</div>
 				<div class="funzioni_prenotazione">
 <!--				FORM restituisce il campo "id_viaggio" su uno o altro url (quindi ottenibile con uno o altro get) in base a bottone che clicco -->
 					<form th:action="@{/cancella_prenotazione}" method="post" th:object="${prenotazione}">
 						<p class="paragrafo_funzioni_prenotazione"></p>
-						<input type="hidden" th:value="*{reservationId}" id="reservationId" name="reservationId"/>
-						<p th:if="${viaggi_prenotazioni[iterStat.index].tripDate.before(#dates.createNow())}"> Viaggio oggi!</p>
-						<input class="button_funzioni_prenotazione" value="cancella prenotazione" type="submit" th:if="${viaggi_prenotazioni[iterStat.index].tripDate.after(#dates.createNow())}" > 
+						<input type="hidden" th:value="*{ID_prenotazione}" id="ID_prenotazione" name="ID_prenotazione"/>
+						<p th:if="${viaggi_prenotazioni[iterStat.index].viaggioDate.before(#dates.createNow())}"> Viaggio oggi!</p>
+						<input class="button_funzioni_prenotazione" value="cancella prenotazione" type="submit" th:if="${viaggi_prenotazioni[iterStat.index].viaggioDate.after(#dates.createNow())}" > 
 		<!--			  da far appparire solo dopo la data del viaggio -->
 					</form>
 		  		</div>
@@ -153,28 +153,28 @@
    
    <div class="contenitore_prenotazione_passeggero"> 
   		<h2 class="header_blocco_prenotazioni" th:if="${not #lists.isEmpty(prenotazioni_utente_input)}">Elenco delle prenotazioni concluse</h2>
-	 	<div class="contenitore_prenotazioni_passeggero" th:each="prenotazione,iterStat :  ${prenotazioni_utente_input}" th:if="${prenotazione.deleted==false and viaggi_prenotazioni[iterStat.index].ended==true}" th:classappend="${(prenotazione.paymentMade ? 'prenotazione_pagata' : 'prenotazione_non_pagata')}" >
- 			<h2 class="header_prenotazioni" th:text="|Prenotazione per il viaggio del: ${#dates.format(viaggi_prenotazioni[iterStat.index].tripDate, 'dd-MM-yyyy HH:mm')}|"></h2>
+	 	<div class="contenitore_prenotazioni_passeggero" th:each="prenotazione,iterStat :  ${prenotazioni_utente_input}" th:if="${prenotazione.cancellata==false and viaggi_prenotazioni[iterStat.index].concluso==true}" th:classappend="${(prenotazione.pagamento_effettuato ? 'prenotazione_pagata' : 'prenotazione_non_pagata')}" >
+ 			<h2 class="header_prenotazioni" th:text="|Prenotazione per il viaggio del: ${#dates.format(viaggi_prenotazioni[iterStat.index].viaggioDate, 'dd-MM-yyyy HH:mm')}|"></h2>
  			<div class="wrapper_prenotazione_passeggero">
  		  		<div class="descrizione_prenotazione">
- 					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${viaggi_prenotazioni[iterStat.index].start}|"></p> 
- 					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${viaggi_prenotazioni[iterStat.index].end}|"></p> 
+ 					<p class="indirizzo_partenza_viaggio" th:text="|Da: ${viaggi_prenotazioni[iterStat.index].partenza}|"></p> 
+ 					<p class="indirizzo_destinazione_viaggio" th:text="|A: ${viaggi_prenotazioni[iterStat.index].destinazione}|"></p> 
  					<div class="break"></div>
- 					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${prenotazioni_utente_input[iterStat.index].meetingAddress}|"></p>
-					<p class="posti" th:text="|Posti prenotati: ${prenotazione.reservedSeats}|" ></p>
-					<p class="bagaglio" th:text="|Bagaglio prenotato: ${prenotazione.reservedTrunk}|" ></p>
- 					<p class="tariffa" th:text="|Tariffa (€/Km): ${viaggi_prenotazioni[iterStat.index].priceKm}|">tariffa(€/km): tariffa(€) </p>
+ 					<p class="indirizzo_incontro" th:text="|Indirizzo incontro: ${prenotazioni_utente_input[iterStat.index].indirizzo_incontro}|"></p>
+					<p class="posti" th:text="|Posti prenotati: ${prenotazione.numero_posti}|" ></p>
+					<p class="bagaglio" th:text="|Bagaglio prenotato: ${prenotazione.bagagliaio_prenotato}|" ></p>
+ 					<p class="tariffa" th:text="|Tariffa (€/Km): ${viaggi_prenotazioni[iterStat.index].tariffaKm}|">tariffa(€/km): tariffa(€) </p>
  			  	</div>
 				<div class="funzioni_prenotazione">	
-					<form th:action="@{/recensione_prenotazione}" method="post"  th:object="${recensione_input}"  th:if="${prenotazione.paymentMade==true and prenotazione.deleted==false and recensioni[iterStat.index]==null}">
+					<form th:action="@{/recensione_prenotazione}" method="post"  th:object="${recensione_input}"  th:if="${prenotazione.pagamento_effettuato==true and prenotazione.cancellata==false and recensioni[iterStat.index]==null}">
 						
 						
 							<label>rating: </label>
 							<input type="number" th:value="*{score}" name="score" id="score"/>
 							<label>testo recensione: </label>						
-							<input type="text" th:value="*{reviewText}" name="reviewText" id="reviewText"/>
+							<input type="text" th:value="*{testo_recensione}" name="testo_recensione" id="testo_recensione"/>
 							<div th:object="${prenotazione}">
-								<input type="hidden" th:value="*{reservationId}" name="reservationId" id="reservationId"/>
+								<input type="hidden" th:value="*{ID_prenotazione}" name="ID_prenotazione" id="ID_prenotazione"/>
 						    </div>
 							<input class="button_funzioni_prenotazione" value="aggiungi la recensione!" type="submit"  > 
 						
@@ -183,9 +183,9 @@
 					</form>
 					<div th:if="${recensioni[iterStat.index]} != null"> 
 						<p th:text="|${recensioni[iterStat.index].score} stelle|"> </p>
-						<p th:text="${recensioni[iterStat.index].reviewText}"> </p>
+						<p th:text="${recensioni[iterStat.index].testo_recensione}"> </p>
 					</div>
-					<div th:if="${prenotazione.paymentMade}==false"> 
+					<div th:if="${prenotazione.pagamento_effettuato}==false"> 
 						<h4>Attenzione! Prenotazione non è stata pagata</h4>
 					</div>
 		 		</div>

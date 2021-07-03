@@ -2,74 +2,74 @@ package carpool.infos;
 
 import java.util.Date;
 
-import carpool.data.Reservation;
+import carpool.data.Prenotazione;
 import carpool.data.User;
 
 public class InfoPrenotazione {
 	
 	//PRENOTAZIONE
-	private int 	reservedSeats;
+	private int 	numero_posti;
 	
-	private Date 	creationDate;
+	private Date 	creation_date;
 
-	private String 	meetingAddress;
+	private String 	indirizzo_incontro;
 	
-	private long 	reservedTrunk;
+	private long 	bagagliaio_prenotato;
 	
 	//USER
 	private String firstName;
 
 	private String lastName;
 
-	private String phoneNumber;
+	private String telefono;
 	
-	public InfoPrenotazione(Reservation prenotazione, User user)
+	public InfoPrenotazione(Prenotazione prenotazione, User user)
 	{
-		this.reservedSeats = prenotazione.getReservedSeats();        
+		this.numero_posti = prenotazione.getNumero_posti();        
 
-		this.creationDate = prenotazione.getCreationDate();       
+		this.creation_date = prenotazione.getCreation_date();       
                  
-		this.meetingAddress = prenotazione.getMeetingAddress();  
+		this.indirizzo_incontro = prenotazione.getIndirizzo_incontro();  
                    
-		this.reservedTrunk = prenotazione.getReservedTrunk();
+		this.bagagliaio_prenotato = prenotazione.getBagagliaio_prenotato();
 
 		this.firstName = user.getFirstName();
 
 		this.lastName = user.getLastName();
        
-		this.phoneNumber = user.getPhoneNumber();
+		this.telefono = user.getTelefono();
 	}
 
 	public int getNumero_posti() {
-		return reservedSeats;
+		return numero_posti;
 	}
 
-	public void setNumero_posti(int reservedSeats) {
-		this.reservedSeats = reservedSeats;
+	public void setNumero_posti(int numero_posti) {
+		this.numero_posti = numero_posti;
 	}
 
 	public Date getCreation_date() {
-		return creationDate;
+		return creation_date;
 	}
 
-	public void setCreation_date(Date creationDate) {
-		this.creationDate = creationDate;
+	public void setCreation_date(Date creation_date) {
+		this.creation_date = creation_date;
 	}
 
 	public String getIndirizzo_incontro() {
-		return meetingAddress;
+		return indirizzo_incontro;
 	}
 
-	public void setIndirizzo_incontro(String meetingAddress) {
-		this.meetingAddress = meetingAddress;
+	public void setIndirizzo_incontro(String indirizzo_incontro) {
+		this.indirizzo_incontro = indirizzo_incontro;
 	}
 
 	public long getBagagliaio_prenotato() {
-		return reservedTrunk;
+		return bagagliaio_prenotato;
 	}
 
-	public void setBagagliaio_prenotato(long reservedTrunk) {
-		this.reservedTrunk = reservedTrunk;
+	public void setBagagliaio_prenotato(long bagagliaio_prenotato) {
+		this.bagagliaio_prenotato = bagagliaio_prenotato;
 	}
 
 	public String getFirstName() {
@@ -89,11 +89,11 @@ public class InfoPrenotazione {
 	}
 
 	public String getTelefono() {
-		return phoneNumber;
+		return telefono;
 	}
 
-	public void setTelefono(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 	
 	

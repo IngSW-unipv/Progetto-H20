@@ -23,7 +23,7 @@ public class WebResourceConfig implements WebMvcConfigurer {
          
         //Fondamentale che ci sia "file://" con 2 slash! Il tutorial diceva solo "file:/" ma su Ubuntu non va bene! 
         //Da vedere cosa succede su Windows, magari lì ci vuole "file:/"
-        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file://"+ uploadPath + "/");
     }
 	
 }

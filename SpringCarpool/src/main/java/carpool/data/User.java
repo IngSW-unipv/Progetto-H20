@@ -3,6 +3,7 @@
 package carpool.data;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -14,29 +15,21 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long userId;
-	
+	private Long ID_user;
 	@Column(nullable = false, unique = true, length = 45)
 	private String email;
-	
 	@Column(nullable = false, length = 64)
 	private String password;
-	
 	@Column(name = "first_name", nullable = false, length = 20)
 	private String firstName;
-	
 	@Column(name = "last_name", nullable = false, length = 20)
 	private String lastName;
-	
 	private boolean enabled;
-	
 	private String country;
-	
 	@Column(nullable = true, length = 64)
     private String photos;
-	
-	@Column(name = "phoneNumber", length = 20)
-	private String phoneNumber;
+	@Column(name = "telefono", length = 20)
+	private String telefono;
 	
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -66,12 +59,12 @@ public class User {
 		
     }
 	
-	public Long getUserId() {
-		return userId;
+	public Long getID_user() {
+		return ID_user;
 	}
 
-	public void setUserId(Long id) {
-		this.userId = id;
+	public void setID_user(Long id) {
+		this.ID_user = id;
 	}
 
 	public String getEmail() {
@@ -128,18 +121,18 @@ public class User {
 	  this.photos = photos;
 	}
   
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
   
   public String getPhotosImagePath() {
-      if (photos == null || userId == null) return null;
+      if (photos == null || ID_user == null) return null;
        
-      return "/user-photos/" + userId + "/" + photos;
+      return "/user-photos/" + ID_user + "/" + photos;
   }
 
 }

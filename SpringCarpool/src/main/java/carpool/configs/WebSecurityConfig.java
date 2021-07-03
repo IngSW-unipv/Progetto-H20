@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/")
 				.loginProcessingUrl("/login")
 		      	.defaultSuccessUrl("/",true)
-		      	.failureHandler(getAuthenticationFailureHandler())  //Funzione che viene chiamata in caso di login con dati errati
+		      	//.failureHandler(getAuthenticationFailureHandler())  //Funzione che viene chiamata in caso di login con dati errati
 		      	.failureUrl("/login-error") //login-error viene preso da un Controller
 				.permitAll()
 				.and()

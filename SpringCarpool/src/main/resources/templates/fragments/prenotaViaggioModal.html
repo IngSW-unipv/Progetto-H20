@@ -24,7 +24,7 @@
 			<form th:action="@{/viaggio_prenota}" th:object="${prenotazione}" method="post">
 			  <div class="form-group">
 			    <label for="col-4 col-form-label">ID Viaggio</label>
-			    <input type="text" class="form-control" th:field="*{tripId}" placeholder="ID del viaggio...">
+			    <input type="text" class="form-control" th:field="*{ID_viaggio}" placeholder="ID del viaggio...">
 			  </div>
 		  
 		  <button type="submit" value="viaggio_prenota" class="btn btn-primary">Submit</button>

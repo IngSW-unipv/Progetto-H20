@@ -1,40 +1,49 @@
 package carpool.infos;
 
 import java.util.Date;
-import carpool.data.Car;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import carpool.data.Automobile;
 import carpool.data.User;
-import carpool.data.Trip;
+import carpool.data.Viaggio;
 
 //classe usata per il passaggio di alcune informazioni al frontend
 public class InfoViaggio 
 {
 	//Viaggio
-	private long 	tripId;
+	private long 	viaggioId;
 
-	private String 	start;
+	private String 	partenza;
 
-	private double startX;
+	private double partenzaX;
 	
-	private double startY;
+	private double partenzaY;
 	
-	private String 	end;
+	private String 	destinazione;
 	
-	private double endX;
+	private double destinazioneX;
 	
-	private double endY;
+	private double destinazioneY;
 
-	private double 	tripLength;
+	private double 	lunghezza_percorso;
 	
 	private double tariffa;
 
-	private Date 	tripDate;
+	private Date 	viaggioDate;
 	
 	//User
 	private String firstName;
 
 	private String lastName;
 	
-	private String phoneNumber;
+	private String telefono;
 	
 	private int avgPunteggio;
 	
@@ -44,71 +53,71 @@ public class InfoViaggio
 	
 	private double bagagliaioLibero;	//vol
 	
-	private String licensePlate;
+	private String targa;
 	
 
-	public InfoViaggio(Trip viaggio, User user, Car auto, int avgPunteggio)
+	public InfoViaggio(Viaggio viaggio, User user, Automobile auto, int avgPunteggio)
 	{
-		tripId = viaggio.getTripId();  
-		start = viaggio.getStart();
-		startX= viaggio.getStartX();
-		startY= viaggio.getStartY();
-		tariffa= viaggio.getPriceKm();
+		viaggioId = viaggio.getViaggioId();  
+		partenza = viaggio.getPartenza();
+		partenzaX= viaggio.getPartenzaX();
+		partenzaY= viaggio.getPartenzaY();
+		tariffa= viaggio.getTariffaKm();
 
-		end =  viaggio.getEnd();
-		endX = viaggio.getEndX();
-		endY = viaggio.getEndY();
-		tripLength = viaggio.getTripLength();
-		tripDate = viaggio.getTripDate();
+		destinazione = viaggio.getDestinazione();
+		destinazioneX = viaggio.getDestinazioneX();
+		destinazioneY = viaggio.getDestinazioneY();
+		lunghezza_percorso = viaggio.getLunghezza_percorso();
+		viaggioDate = viaggio.getViaggioDate();
 		
 		firstName = user.getFirstName();
 		lastName = user.getLastName();
-		phoneNumber = user.getPhoneNumber();
+		telefono = user.getTelefono();
 		this.avgPunteggio = avgPunteggio;
 		
-		postiLiberi = auto.getTotalSeats() - viaggio.getReservedSeats();
-		bagagliaioLibero = auto.getTotalTrunk() - viaggio.getReservedTrunk();
-		licensePlate = auto.getLicensePlate();
+		postiLiberi = auto.getPosti_totali() - viaggio.getPostiPrenotati();
+		bagagliaioLibero = auto.getVol_bagaglialio_tot() - viaggio.getTotale_bagaglio_prenotato();
+		targa = auto.getTarga();
 	}
 
-	public long getTripId() {
-		return tripId;
+	public long getViaggioId() {
+		return viaggioId;
 	}
 
-	public void setViaggioId(long tripId) {
-		this.tripId = tripId;
+	public void setViaggioId(long viaggioId) {
+		this.viaggioId = viaggioId;
 	}
 
-	public String getStart() {
-		return start;
+	public String getPartenza() {
+		return partenza;
 	}
 
-	public void setPartenza(String start) {
-		this.start = start;
+	public void setPartenza(String partenza) {
+		this.partenza = partenza;
 	}
 
 	public String getDestinazione() {
-		return end;
+		return destinazione;
 	}
 
-	public void setDestinazione(String end) {
-		this.end = end;
+	public void setDestinazione(String destinazione) {
+		this.destinazione = destinazione;
 	}
 
 	public double getLunghezza_percorso() {
-		return tripLength;
+		return lunghezza_percorso;
 	}
 
-	public void setLunghezza_percorso(double tripLength) {
-		this.tripLength = tripLength;
+	public void setLunghezza_percorso(double lunghezza_percorso) {
+		this.lunghezza_percorso = lunghezza_percorso;
 	}
 
-	public Date getTripDate() {
-		return tripDate;
+	public Date getViaggioDate() {
+		return viaggioDate;
 	}
 
-	public void setTripDate(Date tripDate) {
-		this.tripDate = tripDate;
+	public void setViaggioDate(Date viaggioDate) {
+		this.viaggioDate = viaggioDate;
 	}
 
 	public String getFirstName() {
@@ -128,11 +137,11 @@ public class InfoViaggio
 	}
 
 	public String getTelefono() {
-		return phoneNumber;
+		return telefono;
 	}
 
-	public void setTelefono(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public int getPostiLiberi() {
@@ -152,41 +161,41 @@ public class InfoViaggio
 	}     
 
 	public String getTarga() {
-		return licensePlate;
+		return targa;
 	}
 
-	public void setTarga(String licensePlate) {
-		this.licensePlate = licensePlate;
-	}public double getStartX() {
-		return startX;
+	public void setTarga(String targa) {
+		this.targa = targa;
+	}public double getPartenzaX() {
+		return partenzaX;
 	}
 
-	public void setPartenzaX(double startX) {
-		this.startX = startX;
+	public void setPartenzaX(double partenzaX) {
+		this.partenzaX = partenzaX;
 	}
 
-	public double getStartY() {
-		return startY;
+	public double getPartenzaY() {
+		return partenzaY;
 	}
 
-	public void setPartenzaY(double startY) {
-		this.startY = startY;
+	public void setPartenzaY(double partenzaY) {
+		this.partenzaY = partenzaY;
 	}
 
-	public double getEndX() {
-		return endX;
+	public double getDestinazioneX() {
+		return destinazioneX;
 	}
 
-	public void setDestinazioneX(double endX) {
-		this.endX = endX;
+	public void setDestinazioneX(double destinazioneX) {
+		this.destinazioneX = destinazioneX;
 	}
 
-	public double getEndY() {
-		return endY;
+	public double getDestinazioneY() {
+		return destinazioneY;
 	}
 
-	public void setDestinazioneY(double endY) {
-		this.endY = endY;
+	public void setDestinazioneY(double destinazioneY) {
+		this.destinazioneY = destinazioneY;
 	}
 
 	public double getTariffa() {

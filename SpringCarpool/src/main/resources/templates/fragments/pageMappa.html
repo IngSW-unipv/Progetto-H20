@@ -58,7 +58,7 @@
 		<div class="form__field"><input type="Button" form="form_infoWindow2" value="Registra" id="BtnRegistra" style="display:none" onclick="submitViaggio()"></div>
 	    </form>
 	
-	<form th:action="@{/prenota-viaggio}" th:object="${prenotazione}" method="post" id="form_infoWindow" style="margin-left:30px">
+	<form th:action="@{/viaggio_prenotazione}" th:object="${prenotazione}" method="post" id="form_infoWindow" style="margin-left:30px">
 	<div id="id_infoWindow" >
 		<div id="dati"></div>
 		<div id="id_userInput" style="display:grid; grid-template-columns: 60% 30%; align-items:center;">
@@ -66,11 +66,11 @@
 				<label for="data_prenotazione">Partenza: </label>
 				<label id="data_prenotazione" style="resize:none;width:80%;background: #f5f5f5; margin-left:15px"></label>
 				<label for="input_postiViaggio"  onkeyup="this.value=this.value.replace(/[^\d]/,'')">Posti: </label>
-				<input type="text" th:field="*{reservedSeats}" id="input_postiViaggio" style="resize:none; width:80%;background: #f5f5f5; margin-left:15px" />
-				<label id="totalSeats" style="margin-left:10px; resize:none; width:60px;"></label>
-				<input type="text" th:field="*{tripId}" id="tripId" style="display:none" />
+				<input type="text" th:field="*{numero_posti}" id="input_postiViaggio" style="resize:none; width:80%;background: #f5f5f5; margin-left:15px" />
+				<label id="posti_totali" style="margin-left:10px; resize:none; width:60px;"></label>
+				<input type="text" th:field="*{ID_viaggio}" id="viaggioId" style="display:none" />
 				<label for="indirizzo_di_incontro" style="grid-column:span 2;">indirizzo di incontro: </label>
-				<input type="text" th:field="*{meetingAddress}" id="indirizzo_di_incontro" style="display:none" />
+				<input type="text" th:field="*{indirizzo_incontro}" id="indirizzo_di_incontro" style="display:none" />
 				<label id="label_indirizzo_di_incontro" style="grid-column:span 2;">Dove vorresti incontrare l'autista? clicca sul percorso!</label>
 			</div>
 			<button type="submit" id="bottone_registraViaggio" style="margin-right:20px; margin-left:20px" value="registraViaggio">Prenota questo viaggio!</button>
@@ -79,18 +79,18 @@
 	</form>
 	
 	
-	<form th:action="@{/registra-viaggio}" th:object="${viaggio}" method="post" id="form_infoWindow2" style="display:none">
-			<input type="text" th:field="*{start}" id="indirizzo_partenza_autista"/>
-			<input type="number" th:field="*{startX}" id="X_partenza_autista"/>
-			<input type="number" th:field="*{startY}" id="Y_partenza_autista"/>
-			<input type="text" th:field="*{end}" id="indirizzo_destinazione_autista"/>
-			<input type="number" th:field="*{endX}" id="X_destinazione_autista"/>
-			<input type="number" th:field="*{endY}" id="Y_destinazione_autista"/>
-			<input type="number" th:field="*{totalSeats}" id="posti_totali_autista"/>
-			<input type="text" th:field="*{dateString}" id="viaggio_date_autista"/>
-			<input type="text" th:field="*{timeString}" id="viaggio_ora_autista"/>
-			<input type="number" th:field="*{tripLength}" id="tripLength"/>
-			<input type="number" th:field="*{priceKm}" id="tariffa_km_form"/>
+	<form th:action="@{/viaggio_register}" th:object="${viaggio}" method="post" id="form_infoWindow2" style="display:none">
+			<input type="text" th:field="*{partenza}" id="indirizzo_partenza_autista"/>
+			<input type="number" th:field="*{partenzaX}" id="X_partenza_autista"/>
+			<input type="number" th:field="*{partenzaY}" id="Y_partenza_autista"/>
+			<input type="text" th:field="*{destinazione}" id="indirizzo_destinazione_autista"/>
+			<input type="number" th:field="*{destinazioneX}" id="X_destinazione_autista"/>
+			<input type="number" th:field="*{destinazioneY}" id="Y_destinazione_autista"/>
+			<input type="number" th:field="*{postiTotali}" id="posti_totali_autista"/>
+			<input type="text" th:field="*{datatemp}" id="viaggio_date_autista"/>
+			<input type="text" th:field="*{oratemp}" id="viaggio_ora_autista"/>
+			<input type="number" th:field="*{lunghezza_percorso}" id="lunghezza_percorso"/>
+			<input type="number" th:field="*{tariffaKm}" id="tariffa_km_form"/>
 			
  		</form>     
 	</div> 

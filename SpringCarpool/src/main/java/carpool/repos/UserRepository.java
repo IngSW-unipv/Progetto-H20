@@ -12,9 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	//devo trovare autista del viaggio relativo alla prenotazione, specificando suo id utente
 	@Query(
-	    	value= "SELECT * FROM users WHERE id = (SELECT user_id FROM trips WHERE trip_id = (SELECT trip_id FROM reservations WHERE reservation_id = :id_prenotazione))",
+	    	value= "SELECT * FROM users WHERE id = (SELECT user_id FROM viaggio WHERE viaggio_id = (SELECT id_viaggio FROM prenotazione WHERE id_prenotazione = :id_prenotazione))",
 	    	nativeQuery = true)
-	User findByReservationId(@Param("id_prenotazione") Long id_prenotazione);
+	User findByID_prenotazione(@Param("id_prenotazione") Long id_prenotazione);
 	
 	
 

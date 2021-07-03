@@ -3,28 +3,28 @@ package functions;
 import java.util.Comparator;
 import java.util.List;
 
-import carpool.data.Trip; 
+import carpool.data.Viaggio; 
 
-public  class Functions implements Comparator<Trip>{
-	private Trip viaggio;
-	private List<Trip> viaggi;
+public  class Functions implements Comparator<Viaggio>{
+	private Viaggio viaggio;
+	private List<Viaggio> viaggi;
 	
-	public Functions (Trip viaggio, List<Trip> viaggi) {
+	public Functions (Viaggio viaggio, List<Viaggio> viaggi) {
 		this.viaggio = viaggio;
 		this.viaggi = viaggi;
 	}
 
 	//Metodo "compare", per riordinare la lista in base alla distanza
 	@Override
-	public int compare(Trip viaggio1, Trip viaggio2) {
-		return Double.compare(viaggio1.getDistance(), viaggio2.getDistance());
+	public int compare(Viaggio viaggio1, Viaggio viaggio2) {
+		return Double.compare(viaggio1.getDistanza(), viaggio2.getDistanza());
 		}
 
 	//Questo metodo inserisce in ogni viaggio disponibile la distanza dal viaggio selezionato
 	//La distanza verrà poi usata dal metodo "compare" per riordinarli
-	public static List<Trip> setDistances (List<Trip> viaggi, Trip viaggio) {
-		for (Trip i : viaggi) {
-			i.setDistance(distance (i.getStartX(), viaggio.getStartX(), i.getStartY(), viaggio.getStartY()));
+	public static List<Viaggio> setDistances (List<Viaggio> viaggi, Viaggio viaggio) {
+		for (Viaggio i : viaggi) {
+			i.setDistanza(distance (i.getPartenzaX(), viaggio.getPartenzaX(), i.getPartenzaY(), viaggio.getPartenzaY()));
 		}
 		return viaggi;
 	}

@@ -1,10 +1,13 @@
 package carpool.data;
 
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+
 public class Role {
 	@Id
 	@Column(name = "role_id")
@@ -19,15 +22,15 @@ public class Role {
 		return role_roles;
 	}
 	
-	public Integer getId() {
+	 public Integer getId() {
 	        return id;
-	}
+	    }
 
 	public String getName() {
 		return name;
-	}
+		}
 	public void setName(String name) {
 		this.name = name;
-	}
+		}
 
 }

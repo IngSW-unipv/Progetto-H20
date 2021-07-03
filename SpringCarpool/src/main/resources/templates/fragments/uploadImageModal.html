@@ -21,7 +21,7 @@
 	              <h4>Carica foto profilo</h4>
 	            </div>
 	            
-				<form th:action="@{/upload-image}" th:object="${user}" method="post" enctype="multipart/form-data">
+				<form th:action="@{/upload_image}" th:object="${user}" method="post" enctype="multipart/form-data">
 					<div>
 					<label>Photos: </label>
 					<input type="file" name="image" accept="image/png, image/jpeg" />
