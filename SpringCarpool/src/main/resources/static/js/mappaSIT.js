@@ -290,12 +290,12 @@ function drawroute(){
 					percorsi_response_processati = [];
 					//to save each response position and specs in it's own array
 					xhttp_response_corrente=xhttp_response[i];
-					response_id_viaggio = xhttp_response[i].viaggioId;
-					var response_partenza_lat = parseFloat(xhttp_response[i].partenzaX);
-					var response_partenza_lon = parseFloat(xhttp_response[i].partenzaY);
+					response_id_viaggio = xhttp_response[i].tripId;
+					var response_partenza_lat = parseFloat(xhttp_response[i].startX);
+					var response_partenza_lon = parseFloat(xhttp_response[i].startY);
 					response_posizione_partenza = new google.maps.LatLng (response_partenza_lat, response_partenza_lon);
-					var response_destinazione_lat = parseFloat(xhttp_response[i].destinazioneX);
-					var response_destinazione_lon = parseFloat(xhttp_response[i].destinazioneY);
+					var response_destinazione_lat = parseFloat(xhttp_response[i].endX);
+					var response_destinazione_lon = parseFloat(xhttp_response[i].endY);
 					response_posizione_destinazione = new google.maps.LatLng (response_destinazione_lat, response_destinazione_lon);
 					
 					//per aggiungere coordinate di estremi del viaggio di cisacun offerente a lista di coordinate su cui fare refit
@@ -487,22 +487,22 @@ function renderDirectionsPolylines(response, polylines, contatore  ) {
 					
 					//maby export to geocode function
 					
-					var response_partenza_lat = parseFloat(xhttp_response[contatore].partenzaX);
-					var response_partenza_lon = parseFloat(xhttp_response[contatore].partenzaY);
+					var response_partenza_lat = parseFloat(xhttp_response[contatore].startX);
+					var response_partenza_lon = parseFloat(xhttp_response[contatore].startY);
 					response_posizione_partenza = new google.maps.LatLng (response_partenza_lat, response_partenza_lon);
-					var response_destinazione_lat = parseFloat(xhttp_response[contatore].destinazioneX);
-					var response_destinazione_lon = parseFloat(xhttp_response[contatore].destinazioneY);
+					var response_destinazione_lat = parseFloat(xhttp_response[contatore].endX);
+					var response_destinazione_lon = parseFloat(xhttp_response[contatore].endY);
 					response_posizione_destinazione = new google.maps.LatLng (response_destinazione_lat, response_destinazione_lon);
-					var indirizzo_partenza = xhttp_response[contatore].partenza;
-					var indirizzo_destinazione = xhttp_response[contatore].destinazione;
+					var indirizzo_partenza = xhttp_response[contatore].start;
+					var indirizzo_destinazione = xhttp_response[contatore].end;
 					//elementi di autista
 					var response_posti_disponibili = parseFloat(xhttp_response[contatore].postiLiberi);
 					var bagagliaio_libero= parseFloat(xhttp_response[contatore].bagagliaioLibero);
-					var targa= xhttp_response[contatore].targa;
+					var licensePlate= xhttp_response[contatore].licensePlate;
 					var tariffa= parseFloat(xhttp_response[contatore].tariffa);
 					var avgPunteggio= parseFloat(xhttp_response[contatore].avgPunteggio);
 					var nomeCognome = xhttp_response[contatore].lastName+" "+xhttp_response[contatore].firstName+ "  ";
-					var response_data_viaggio = xhttp_response[contatore].viaggioDate;
+					var response_data_viaggio = xhttp_response[contatore].tripDate;
 					
 					for (var i=0; i<avgPunteggio; i++) {
 				    	nomeCognome+="★";
@@ -511,10 +511,10 @@ function renderDirectionsPolylines(response, polylines, contatore  ) {
 									var dati=document.getElementById("dati");
 									dati.innerHTML="<h3>Autista: "+nomeCognome+"</h3><ul><li>partenza: "+indirizzo_partenza +"</li><li>destinazione: "+indirizzo_destinazione +"</li><li>distanza: "+ (google.maps.geometry.spherical.computeLength(polylines.getPath())/1000).toFixed(1) + "km</li></ul>";
 									form_infoWindow = document.getElementById("form_infoWindow");
-									var posti_totali = document.getElementById("posti_totali");
-									posti_totali.innerHTML="liberi: " +response_posti_disponibili ;
-									var id_percorso=document.getElementById("viaggioId");
-									id_percorso.value=""+xhttp_response[contatore].viaggioId;
+									var totalSeats = document.getElementById("totalSeats");
+									totalSeats.innerHTML="liberi: " +response_posti_disponibili ;
+									var id_percorso=document.getElementById("tripId");
+									id_percorso.value=""+xhttp_response[contatore].tripId;
 									var label_data=document.getElementById("data_prenotazione");
 									label_data.textContent= response_data_viaggio;
 									var cln=document.getElementById("form_infoWindow");

@@ -1,18 +1,10 @@
 package carpool.services;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import carpool.CustomUserDetails;
 import carpool.data.Role;
 import carpool.data.User;
 import carpool.repos.RoleRepository;
@@ -27,7 +19,7 @@ public class UserService {
 	@Autowired
 	private RoleRepository roleRepo;
 	
-	public boolean userRegisterService(User user)
+	public boolean registerUser(User user)
 	{
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -60,82 +52,68 @@ public class UserService {
 	    }
 	}
 	
-	public boolean editFirstNameService(String FirstName)
+	public boolean editUserFirstName(String FirstName,User user)
 	{
-		CustomUserDetails user1 = (CustomUserDetails) SecurityContextHolder.getContext()
-	            .getAuthentication()
-	            .getPrincipal();
-		
-		
-		User user2 = user1.getUser();
-		user2.setFirstName(FirstName);
-	    userRepo.save(user2);
+		user.setFirstName(FirstName);
+	    userRepo.save(user);
 	    return true;
 	}
 	
-	public boolean editPasswordService(String Password)
+	public boolean editUserPassword(String Password,User user)
 	{
-		CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
-	            .getAuthentication()
-	            .getPrincipal();
-		User user1 = user.getUser();
 	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	    String encodedPassword = passwordEncoder.encode(Password);
-	    user1.setPassword(encodedPassword);
-	    userRepo.save(user1);
+	    user.setPassword(encodedPassword);
+	    userRepo.save(user);
 	    return true;
 	}
 	
-	public boolean addRoleService(int ruolo)
+	public boolean addUserRole(int roleId, User user)
 	{
 		//Per prima cosa prendo l'id dell'utente loggato
-		var auth = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails user1 = (CustomUserDetails) auth.getPrincipal();
-		User user = user1.getUser();
 		//Prendo il ruolo che è dato come input
-		Role role = roleRepo.getRoleById(ruolo);
+		var check = roleRepo.findById((long)roleId);
+		if(!check.isPresent())
+		{
+			return false;
+		}
+		Role role = check.get();
 		
 		//Questo pezzo mostra i ruoli che l'utente loggato ha, ma è solo per test, si può levare
-		var lista = user.getRoles();
-		if (lista != null) {
-			for (Role i : lista) {
-				System.out.println(i.getName());
-				}
+		var roles = user.getRoles();
+
+		for (Role i : roles) {
+			System.out.println(i.getName());
 			}
 		//Controllo se il ruolo che voglio aggiungere, esiste 
 		//(un ruolo inesistente non si può aggiungere, il db lo impedisce, ma meglio controllare)
 		//Funfact, un ruolo inesistente nel db non entra, ma in user.getRoles() (cioè in memoria del server) viene aggiunto
 		//Quindi eventuali check in user.getRoles come quel getName prima, cercherebbero un ruolo inesistente
 		//Se si chiude e rilancia l'applicazione, user.getRoles avrà solo i dati dal db
-		var ruoli_esistenti = roleRepo.findAll();
-		boolean role_exist = false;
-		boolean role_already_assigned = false;
-		for (Role i : ruoli_esistenti) {
-			if (i.getId() == ruolo) {
-				role_exist = true;
+		var existingRoles = roleRepo.findAll();
+		boolean roleExists = false;
+		boolean roleAlreadyAssigned = false;
+		for (Role i : existingRoles) {
+			if (i.getId() == roleId) {
+				roleExists = true;
 				
 				//Se il ruolo esiste, controllo se l'utente non ha già quel ruolo, per evitare che si possa inutilmente inserirlo più volte
 				String nome_ruolo = role.getName();
-				for (Role j : lista) {
+				for (Role j : roles) {
 					if (j.getName().equals(nome_ruolo))	
-						role_already_assigned = true;
+						roleAlreadyAssigned = true;
 				}
 			}
 		}
 		
 		//Aggiungo tale ruolo all'array dell'utente
-		if (role_exist && !role_already_assigned) {
+		if (roleExists && !roleAlreadyAssigned) {
 			user.getRoles().add(role);
 			//Salvo tutto, così facendo salvo pure il contenuto dell'array
 			userRepo.save(user); 
 		}
 		
-		//Questo pezzo refresha le autorizzazioni se no tocca riavviare perchè il ruolo venga riconosciuto
-		//Aggiungo il ruolo pure qua
-		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-		updatedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
-		SecurityContextHolder.getContext().setAuthentication(newAuth);
+
 
 		//Funziona, ma durante una sessione, ogni volta aggiunge a ripetizione se aggiungi più volte
 		//Questo perchè ogni volta aggiungi nell'array, e ogni volta lo salvi.
@@ -145,19 +123,31 @@ public class UserService {
 	    return true;
 	}
 	
-	public boolean removeRoleService(int ruolo)
+	public boolean removeUserRole(int ruolo,User user)
 	{
 		//Per prima cosa prendo l'id dell'utente loggato
-		CustomUserDetails user1 = (CustomUserDetails) SecurityContextHolder.getContext()
-				.getAuthentication()
-				.getPrincipal();
-		User user = user1.getUser();
 		//Prendo il ruolo che è dato come input
-		Role role = roleRepo.getRoleById(ruolo);
+		var check = roleRepo.findById((long)ruolo);
+		if(!check.isPresent())
+		{
+			return false;
+		}
+		Role role = check.get();
 		
 		user.removeRole(role);
 		userRepo.saveAndFlush(user);
 		roleRepo.saveAndFlush(role);
 		return true;
+	}
+	
+	public String getRoleName(int roleId)
+	{
+		var check = roleRepo.findById((long)roleId);
+		if(!check.isPresent())
+		{
+			return null;
+		}
+		Role role = check.get();
+		return role.getName();
 	}
 }

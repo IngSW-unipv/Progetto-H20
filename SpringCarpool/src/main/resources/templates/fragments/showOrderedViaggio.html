@@ -29,11 +29,11 @@
 			<th>Distanza dal viaggio test</th>
 		</tr>
 		<tr th:each="viaggio : ${viaggioOrdered}">
-			<td th:text="${viaggio.viaggioId}"></td>
+			<td th:text="${viaggio.tripId}"></td>
 			<td th:text="${viaggio.userId}"></td>
-			<td th:text="${viaggio.partenza}"></td>
-			<td th:text="${viaggio.destinazione}"></td>
-			<td th:text="${viaggio.distanza}"></td>
+			<td th:text="${viaggio.start}"></td>
+			<td th:text="${viaggio.end}"></td>
+			<td th:text="${viaggio.distance}"></td>
 		</tr>
 		</table>
 		</div>

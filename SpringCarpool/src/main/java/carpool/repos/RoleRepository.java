@@ -8,8 +8,7 @@ import carpool.data.Role;
 public interface RoleRepository extends JpaRepository<Role, Long>{
 
 	@Query("SELECT u FROM Role u WHERE u.id = ?1")
-	public Role findByuserId(Long userId);
+	public Role findByUserId(Long userId);
 	
-	Role getRoleById(Integer id);
 
 }

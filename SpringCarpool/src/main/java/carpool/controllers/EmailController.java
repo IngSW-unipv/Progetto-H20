@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import carpool.configs.MyConstants;
 
 @Controller
-public class EmailController {
+public class EmailController extends ControllerUtility {
 	
 	@Autowired
     public JavaMailSender emailSender;

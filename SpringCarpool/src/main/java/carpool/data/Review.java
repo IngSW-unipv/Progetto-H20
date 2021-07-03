@@ -7,36 +7,42 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Recensione {
+@Table(name = "reviews")
+public class Review {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long ID_recensione;
+	private long reviewId;
+	
 	@Column(nullable = false, unique = false, length = 45)
-	private long ID_prenotazione;
+	private long reservationId;
+	
 	@Column(nullable = false, unique = false, length = 45)
 	private int score;
-	private String testo_recensione;
+	
+	private String reviewText;
+	
 	@Column(nullable = false, unique = false, length = 45)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
 	
-	public long getID_recensione() {
-		return ID_recensione;
+	public long getReviewId() {
+		return reviewId;
 	}
-	public void setID_recensione(long iD_recensione) {
-		ID_recensione = iD_recensione;
+	public void setReviewId(long iD_recensione) {
+		reviewId = iD_recensione;
 	}
-	public long getID_prenotazione() {
-		return ID_prenotazione;
+	public long getReservationId() {
+		return reservationId;
 	}
-	public void setID_prenotazione(long iD_prenotazione) {
-		ID_prenotazione = iD_prenotazione;
+	public void setReservationId(long iD_prenotazione) {
+		reservationId = iD_prenotazione;
 	}
 	public int getScore() {
 		return score;
@@ -44,17 +50,17 @@ public class Recensione {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	public String getTesto_recensione() {
-		return testo_recensione;
+	public String getReviewText() {
+		return reviewText;
 	}
-	public void setTesto_recensione(String testo_recensione) {
-		this.testo_recensione = testo_recensione;
+	public void setReviewText(String reviewText) {
+		this.reviewText = reviewText;
 	}
 	public Date getCreationDate() {
 		return creationDate;
 	}
-	public void setCreationDate(Date creation_date) {
-		this.creationDate = creation_date;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 }
