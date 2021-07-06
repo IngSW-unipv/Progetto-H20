@@ -1,0 +1,47 @@
+.profileWrapper{
+    width: 60%;
+    margin: auto;
+    top: auto;
+    padding-top: 200px;
+}
+.profileDetails {
+    margin: auto;
+    width: 80%;
+	display: grid;
+	grid-template-columns: 50% 50;	
+	grid-gap: 20px;
+}
+
+.profileInfo {
+    margin: auto;
+}
+.profileImmages {
+    margin: auto;
+}
+.headerUser {
+	grid-column: span 2;	
+	
+}
+.driverImage {
+    margin: auto;
+}
+.btn-group {
+    width: 100%;
+    margin-left: -5px;
+}
+.rounded.img-fluid {
+    width: 70%;
+
+}
+
+.userDriverPassenger{
+    margin: auto;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 50% 50;
+    grid-gap: 20px;
+    padding-top: 79px;
+}
+.driverInfo1{
+	margin: auto;
+}

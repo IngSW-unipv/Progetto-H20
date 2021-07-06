@@ -8,7 +8,7 @@
   
   	<!-- CSS e JS per la mappa -->
     <link rel="stylesheet" type="text/css" href="css/MappaSIT.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=*********KEYGOESHERE**********&callback=initMap&libraries=places"defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=*********KEYGOESHERE**********&callback=initMap&libraries=places"defer></script>
  	<script type="text/javascript" src="js/mappaSIT.js"></script>
  	
  	<body>    
@@ -16,7 +16,7 @@
 	<div id="grid">
 	
 	<!-- slider starts here -->
-	<div class="switch-button">
+	<div class="switch-button" sec:authorize="hasAnyAuthority('AUTISTA')">
 		<span class="active"></span>
 		<button class="switch-button-case left active-case">Cerco un viaggio</button>
 		<button class="switch-button-case right">Offro un viaggio</button>

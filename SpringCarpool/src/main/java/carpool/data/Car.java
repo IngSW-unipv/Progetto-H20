@@ -28,6 +28,8 @@ public class Car {
 	
 	@Column(nullable = false, unique = false, length = 45)
 	private int totalTrunk;
+
+	private boolean defaultCar;
 	
 	public long getCarId() {
 		return carId;
@@ -64,6 +66,12 @@ public class Car {
 	}
 	public void setTotalTrunk(int totalTrunk) {
 		this.totalTrunk = totalTrunk;
+	}
+	public boolean isDefaultCar() {
+		return defaultCar;
+	}
+	public void setDefaultCar(boolean defaultCar) {
+		this.defaultCar = defaultCar;
 	}
 
 }

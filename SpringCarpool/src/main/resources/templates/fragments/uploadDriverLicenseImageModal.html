@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<div th:fragment="uploadImageModal">
+<div th:fragment="uploadDriverLicenseImageModal">
 
-	<div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="uploadDriverLicenseImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	      <div class="modal-dialog modal-dialog-centered" role="document">
 	        <div class="modal-content">
 	          <div class="modal-header border-bottom-0">
@@ -21,12 +21,12 @@
 	              <h4>Carica foto profilo</h4>
 	            </div>
 	            
-				<form th:action="@{/upload-image}" th:object="${user}" method="post" enctype="multipart/form-data">
+				<form th:action="@{/upload-driverimage}" th:object="${user}" method="post" enctype="multipart/form-data">
 					<div>
 					<label>Photos: </label>
 					<input type="file" name="image" accept="image/png, image/jpeg" />
 					</div>
-					<button type="submit" name ="percorso" class="btn btn-primary" value="Profile">Submit</button>
+					<button type="submit" name ="percorso" class="btn btn-primary" value="Driver">Submit</button>
 				</form>
 			</div>
 	    </div>

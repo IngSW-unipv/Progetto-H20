@@ -19,7 +19,7 @@ public class Trip {
 	@Column(nullable = false, unique = false, length = 45)
 	private long carId;
 	
-	@Column(nullable = false, unique = false, length = 45)
+	@Column(nullable = false, unique = false, length = 100)
 	private String start;	//partenza
 	
 	@Column(nullable = false, unique = false, length = 45)
@@ -28,12 +28,13 @@ public class Trip {
 	@Column(nullable = false, unique = false, length = 45)
 	private double startY;
 	
-	@Column(nullable = false, unique = false, length = 45)
+	@Column(nullable = false, unique = false, length = 100)
 	private String end;	//destinazione
 	
 	@Column(nullable = false, unique = false, length = 45)
 	private double endX;
 	
+	@Column(nullable = false, unique = false, length = 45)
 	private double endY;
 	
 	@Column(nullable = false, unique = false, length = 5)
@@ -65,14 +66,35 @@ public class Trip {
 	@Transient
 	private String timeString;
 	
-	
 	//Attributo transient usato per mostrare le prenotazioni associate a questo viaggio
 	@Transient
 	private ArrayList<Reservation> reservations;
 	
+	//Attributo temporaneo per la distanza da un viaggio e l'altro
 	@Transient
-	private double distance; //Attributo temporaneo per la distance da un viaggio e l'altro		//distanza
+	private double distance; 
 	
+	
+
+	public Trip ( long userId, long carId, String start, double startX, double startY, String end, double endX, double endY, int totalSeats, int reservedSeats, double priceKm,  double tripLength, Date creationDate) {
+		
+		this.userId = userId;
+		this.carId = carId;
+		this.start = start;
+		this.startX = startX;
+		this.startY = startY;
+		this.end = end;
+		this.endX = endX;
+		this.endY = endY;
+		this.totalSeats = totalSeats;
+		this.deleted = false;
+		this.reservedSeats = reservedSeats;
+		this.priceKm = priceKm;
+		this.tripLength  = tripLength;
+		this.creationDate = creationDate;
+		this.deleted = false;
+		this.ended = false;
+	}
 	
 	//Il costruttore non serve per mettere il viaggio nel DB, però viene usato per altre cose
 	public Trip (String start, double startX, double startY, String end, double endX, double endY, int totalSeats) {
@@ -86,7 +108,6 @@ public class Trip {
 		this.totalSeats = totalSeats;
 		this.deleted = false;
 	}
-	
 	
 	public Trip() {
 	}
@@ -201,7 +222,7 @@ public class Trip {
 	public void addReservedSeats(int additionalSeats)
 	{
 		this.reservedSeats += additionalSeats;
-		this.reservedSeats = Math.max(0,  Math.min(1, this.reservedSeats));	//ensure this does not go under 0 and above total seats
+		this.reservedSeats = Math.max(0,  Math.min(this.totalSeats, this.reservedSeats));	//ensure this does not go under 0 and above total seats
 	}
 	
 	public boolean addReservedSeatsIfAvailable(int additionalSeats)
@@ -332,6 +353,12 @@ public class Trip {
 
 	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+	
+	public double getDistanceKm()
+	{
+		return distance/1000;
+
 	}
 	
 }

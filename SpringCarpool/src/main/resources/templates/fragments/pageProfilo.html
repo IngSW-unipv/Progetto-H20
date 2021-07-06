@@ -34,6 +34,13 @@
 		 </div>
 		</div>
 		
+		<div class="profile-images-card">
+		 <div class="profile-images"><img th:src="@{${user1.driverPhotosImagePath}}" /></div>
+		  <div class="custom-file">
+		 <button type="button" class="btn btn-info btn-round" data-toggle="modal" data-target="#uploadDriverLicenseImageModal"><i class="bi bi-box-arrow-in-right"></i> Aggiungi immagine</button>
+		 </div>
+		</div>
+		
 		<script src="js/jquery-latest.min.js"></script>
 	   </div>
       </div>
@@ -78,6 +85,7 @@
 </section>
 </div>
 	<div  th:replace="fragments/uploadImageModal :: uploadImageModal"></div>
+	<div  th:replace="fragments/uploadDriverLicenseImageModal :: uploadDriverLicenseImageModal"></div>
 	<div  th:replace="fragments/useredit :: useredit"></div>
 	<div  th:replace="fragments/passwordeditModal :: passwordeditModal"></div>
 	<div  th:replace="fragments/removeRuoloModal :: removeRuoloModal"></div>

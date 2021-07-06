@@ -21,8 +21,10 @@ public class WebResourceConfig implements WebMvcConfigurer {
          
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
          
-        //Fondamentale che ci sia "file://" con 2 slash! Il tutorial diceva solo "file:/" ma su Ubuntu non va bene! 
-        //Da vedere cosa succede su Windows, magari lì ci vuole "file:/"
+        //Fondamentale: 
+        //Su Linux ci vuole "file://" con 2 slash
+        //Su Windows ci vuole "file:/" con 1 slash
+        //Se no non funziona, va modificato opportunamente a seconda del sistema operativo in questione!
         registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
 	

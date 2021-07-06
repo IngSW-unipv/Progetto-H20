@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import carpool.data.Role;
 
-public interface RoleRepository extends JpaRepository<Role, Long>{
+public interface RoleRepository extends JpaRepository<Role, Integer>{
 
 	@Query("SELECT u FROM Role u WHERE u.id = ?1")
-	public Role findByUserId(Long userId);
+	public Role findByUserId(int userId);
 	
 
 }

@@ -1,7 +1,5 @@
 package carpool.controllers;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ public class TripController extends ControllerUtility{
 	@PreAuthorize("hasAnyAuthority('AUTISTA')")
 	@PostMapping("/registra-viaggio")
 	public String registerTrip(Trip trip) {
-		
 		tripService.registerTrip(trip, getUserDetails().getId());
 		return "redirect:/";
 	}
@@ -38,7 +35,7 @@ public class TripController extends ControllerUtility{
 	@PostMapping("/cancella-viaggio")
 	public String deleteTrip(Trip trip) {
 		
-		tripService.deleteTrip(trip);
+		tripService.deleteTrip(trip.getTripId());
 		
 		System.out.println("cancellato viaggio: "+trip.getTripId());
 		return "redirect:/ViaggiPrenotazioni";

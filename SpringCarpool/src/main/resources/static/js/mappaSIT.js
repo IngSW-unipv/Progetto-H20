@@ -157,26 +157,27 @@ function initMap() {
 	switchBtnLeft 			= document.querySelector('.switch-button-case.left');
 	activeSwitch 			= document.querySelector('.active');
 
-	switchBtnLeft.addEventListener('click', function(){
-		switchLeft();
-		document.getElementById("div_data").style.gridColumn ="span 2";
-		document.getElementById("form_ora_autista").style.display="none";
-		document.getElementById("form_field_interno2").style.display="none";
-		document.getElementById("BtnCerca").value="Cerca";
-		check_selezione = "passeggero";		
-		document.getElementById("BtnRegistra").style.display="none";
-
-	}, false);
-
-	switchBtnRight.addEventListener('click', function(){
-		switchRight();
-		document.getElementById("div_data").style.gridColumn ="span 1";
-		document.getElementById("form_ora_autista").style.display="flex";
-		document.getElementById("form_field_interno2").style.display="grid";
-		document.getElementById("BtnCerca").value="Disegna";
-		check_selezione = "autista";
-	}, false);
+	if (switchButton != null){
+		switchBtnLeft.addEventListener('click', function(){
+			switchLeft();
+			document.getElementById("div_data").style.gridColumn ="span 2";
+			document.getElementById("form_ora_autista").style.display="none";
+			document.getElementById("form_field_interno2").style.display="none";
+			document.getElementById("BtnCerca").value="Cerca";
+			check_selezione = "passeggero";		
+			document.getElementById("BtnRegistra").style.display="none";
 	
+		}, false);
+	
+		switchBtnRight.addEventListener('click', function(){
+			switchRight();
+			document.getElementById("div_data").style.gridColumn ="span 1";
+			document.getElementById("form_ora_autista").style.display="flex";
+			document.getElementById("form_field_interno2").style.display="grid";
+			document.getElementById("BtnCerca").value="Disegna";
+			check_selezione = "autista";
+		}, false);
+	}
 	
 	//listener for hover on routes
 	
@@ -277,8 +278,6 @@ function drawroute(){
 	    xhttp.open("POST", "mappa_prova", true);
 	    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    xhttp.send(richiesta_completa);
-	
-	
 	
 		xhttp.onreadystatechange = function() {
 	    	if (this.readyState == 4 && this.status == 200) {
@@ -408,7 +407,7 @@ function disegna_percorso_principale(response, polylines_param) {
 			
 			distanza_percorso_autista = google.maps.geometry.spherical.computeLength(polylines_param.getPath());
 			distanza_percorso_autista=distanza_percorso_autista/1000;
-			document.getElementById("lunghezza_percorso").setAttribute("value", distanza_percorso_autista);
+			document.getElementById("tripLength").setAttribute("value", distanza_percorso_autista);
 }
 
 var posizione;

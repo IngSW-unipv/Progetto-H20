@@ -1,0 +1,188 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT CARPOOL</title>
+<link href="css/Profilo-user.css" rel="stylesheet" type="text/css">
+<link href="css/Profilo-user-bootstrap.css" rel="stylesheet" type="text/css">
+	<div th:replace="fragments/css :: css"></div>
+
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="profileWrapper">
+
+	<form th:action="@{/editUserDetails}" method="post"  th:object="${CurrentUser}">
+		<div class="profileDetails">
+		<h3 class="headerUser">Informazioni generali</h3>
+			<div class="profileInfo">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend"> <span class="input-group-text">Nome&nbsp;</span> </div>					
+					<input type="hidden" th:value="*{userId}" name="userId" id="userId">
+					<input type="text" class="form-control" th:value="*{firstName}" name="firstName" id="firstName">
+		    	</div>
+	            <div class="input-group mb-3">
+	            	<div class="<strong>input-group-append</strong>"> <span class="input-group-text">Cognome&nbsp;</span> </div>
+					<input type="text" class="form-control" th:value="*{lastName}" name="lastName" id="lastName">
+	            </div>
+            	<div class="input-group mb-3">
+              		<div class="input-group-prepend"> <span class="input-group-text">Telefono&nbsp;</span> </div>
+              		<input type="text" class="form-control" th:value="*{phoneNumber}" name="phoneNumber" id="phoneNumber" placeholder="Non specificato"  onkeyup="this.value=this.value.replace(/[^\d]/,'')">
+            	</div>
+				<div class="input-group mb-3">
+             		<div class="input-group-prepend"> <span class="input-group-text">Mail&nbsp;</span> </div>
+              		<input type="text" class="form-control" th:value="*{email}" name="email" id="email" placeholder="Non specificato" >
+            	</div>
+				<div class="input-group mb-3" id="passwordEdit" style="display:none">
+              		<div class="input-group-prepend"> <span class="input-group-text" >Nuova Password&nbsp;</span> </div>
+              		<input type="password" class="form-control" th:value="${newPassword}" name="newPassword" id="newPassword" pattern=".{6,}">
+            	</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-secondary" onclick="getElementById('passwordEdit').style.display = '';">Cambia Password</button>
+					<button type="submit" class="btn btn-secondary">Salva</button>
+				</div>
+			</div>
+			<div class="profileImmages"> 
+			<p>Foto profilo </p>
+				<img th:src="@{'/user-photos/'+${CurrentUser.userId}+'/profile/'+ ${CurrentUser.photos}}" style="width:220px; height:220px" th:if="${CurrentUser.photos} !=null">
+				<p th:if="${CurrentUser.photos}==null"> Aggiungi una immagine di profilo!</p>
+				<div class="btn-group col-xl-9" role="group">
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#uploadImageModal"><i class="bi bi-box-arrow-in-right"></i> Modifica</button>
+				</div>
+			</div> 
+			
+	</form>
+</div>
+	
+	<div class="userDriverPassenger">
+		<h3 class="headerUser" sec:authorize="hasAnyAuthority('AUTISTA')">Informazioni per l'autista</h3>
+		<h3 class="headerUser" sec:authorize="!hasAnyAuthority('AUTISTA')">Riempi i campi per diventare un autista!</h3>
+		<div class="driverInfo1">
+			<div class="container-fluid">
+				<ul id="clothingnav1" class="nav nav-tabs" role="tablist">
+			   		<li class="nav-item" th:if="${CurrentCars.size()>0}"> <a class="nav-link active" href="#Auto1" id="hometab1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Auto #1</a> </li>
+			   		<li class="nav-item" th:if="${CurrentCars.size()==2}"> <a class="nav-link" href="#Auto2" role="tab" id="hatstab1" data-toggle="tab" aria-controls="hats">Auto#2</a> </li>
+			   		<li class="nav-item" > <a class="nav-link" href="#NuovaAuto" role="tab" id="hatstab1" data-toggle="tab" aria-controls="hats">Nuova Auto</a> </li>
+		      	</ul>
+			  	<!-- Content Panel -->
+			  	<div id="clothingnavcontent1" class="tab-content">
+			  		
+			    	<div role="tabpanel" class="tab-pane fade show active" id="Auto1" aria-labelledby="hometab1">
+			    	  	<form th:action="@{/editCar}" method="post" th:object="${CurrentCars[0]}" th:if="${CurrentCars.size()>0}">
+							<div class="carInfo">
+								<input type="hidden" th:value="*{carId}" name="carId" id="carId">
+								<div class="input-group mb-3">
+				  					<div class="input-group-prepend"> <span class="input-group-text" >Targa&nbsp;</span> </div>
+				  					<input type="text" class="form-control" th:value="*{licensePlate}" name="licensePlate" id="licensePlate" placeholder="Targa non specificata" aria-describedby="basicaddon1">
+			    				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="<strong>input-group-append</strong>"> <span class="input-group-text">Cilindrata&nbsp;</span> </div>
+	              					<input type="number" class="form-control" th:value="*{cylinder}" name="cylinder" id="cylinder" placeholder="cilindrata non specificataa"  aria-describedby="contentaddon1">
+	            				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Posti Totali&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalSeats}" name="totalSeats" id="totalSeats" placeholder="placeholder content" >
+	            				</div>
+								<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Volume Bagagliaio&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalTrunk}" name="totalTrunk" id="totalTrunk" placeholder="placeholder content" >
+	            				</div>
+								<div class="btn-group" role="group">
+									  <button type="submit" class="btn btn-secondary">Salva</button>
+									  <button type="submit" class="btn btn-secondary" th:formaction="@{/deleteCar}">Rimuovi</button>
+									  <button type="submit" class="btn btn-secondary" th:formaction="@{/setDefaultCar}">Imposta Default</button>
+								</div>
+							</div>
+						</form>
+					</div>
+			    	<div role="tabpanel"  class="tab-pane fade" id="Auto2" aria-labelledby="hatstab1">
+			      	
+						<form th:action="@{/editCar}" method="post" th:object="${CurrentCars[1]}" th:if="${CurrentCars.size()>1}">
+							<div class="carInfo">
+								<input type="hidden" th:value="*{carId}" name="carId" id="carId">
+								<div class="input-group mb-3">
+				  					<div class="input-group-prepend"> <span class="input-group-text" >Targa&nbsp;</span> </div>
+				  					<input type="text" class="form-control" th:value="*{licensePlate}" name="licensePlate" id="licensePlate" placeholder="Targa non specificata" aria-describedby="basicaddon1">
+			    				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="<strong>input-group-append</strong>"> <span class="input-group-text">Cilindrata&nbsp;</span> </div>
+	              					<input type="number" class="form-control" th:value="*{cylinder}" name="cylinder" id="cylinder" placeholder="cilindrata non specificataa"  aria-describedby="contentaddon1">
+	            				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Posti Totali&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalSeats}" name="totalSeats" id="totalSeats" placeholder="placeholder content" >
+	            				</div>
+								<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Volume Bagagliaio&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalTrunk}" name="totalTrunk" id="totalTrunk" placeholder="placeholder content" >
+	            				</div>
+								<div class="btn-group" role="group">
+									  <button type="submit" class="btn btn-secondary">Salva</button>
+									  <button type="submit" class="btn btn-secondary" th:formaction="@{/deleteCar}">Rimuovi</button>
+									  <button type="submit" class="btn btn-secondary" th:formaction="@{/setDefaultCar}">Imposta Default</button>
+								</div>
+							</div>
+							
+						</form>
+					</div>
+			    		
+			    	<div role="tabpanel"  class="tab-pane fade" id="NuovaAuto" aria-labelledby="hatstab1">
+			      	
+						<form th:action="@{/addCar}" method="post" th:object="${NewCar}">
+							<div class="carInfo">
+								<div class="input-group mb-3">
+				  					<div class="input-group-prepend"> <span class="input-group-text" >Targa&nbsp;</span> </div>
+				  					<input type="text" class="form-control" th:value="*{licensePlate}" name="licensePlate" id="licensePlate" placeholder="inserisci la targa" aria-describedby="basicaddon1">
+			    				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="<strong>input-group-append</strong>"> <span class="input-group-text">Cilindrata&nbsp;</span> </div>
+	              					<input type="number" class="form-control" th:value="*{cylinder}" name="cylinder" id="cylinder" placeholder="cilindrata non specificataa"  aria-describedby="contentaddon1">
+	            				</div>
+	            				<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Posti Totali&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalSeats}" name="totalSeats" id="totalSeats" placeholder="placeholder content" >
+	            				</div>
+								<div class="input-group mb-3">
+	              					<div class="input-group-prepend"> <span class="input-group-text">Volume Bagagliaio&nbsp;</span> </div>
+	              					<input type="text" class="form-control" th:value="*{totalTrunk}" name="totalTrunk" id="totalTrunk" placeholder="placeholder content" >
+	            				</div>
+								<div class="btn-group" role="group">
+									  <button type="submit" class="btn btn-secondary">Salva</button>
+								</div>
+							</div>
+							
+						</form>
+					</div>	
+			    		
+			    		
+		      	</div>
+			</div>
+		</div>
+
+		<div class="driverImage"> 
+			<p>Foto della Patente </p>
+			<img th:src="@{'/user-photos/'+${CurrentUser.userId}+'/driver/'+ ${CurrentUser.driverPhoto}}" style="width:220px; height:220px" th:if="${CurrentUser.driverPhoto} !=null">
+			<p th:if="${CurrentUser.driverPhoto}==null"> Aggiungi una immagine di profilo!</p>
+			<div class="btn-group col-xl-9" role="group">
+				<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#uploadDriverLicenseImageModal"><i class="bi bi-box-arrow-in-right"></i> Modifica</button>
+			</div>
+		</div>
+
+	<form th:action="@{/ruolo_add}" method="post" sec:authorize="!hasAnyAuthority('AUTISTA')">
+		<input type="hidden" th:value="2" name="roleId" id="roleId">
+		<button type="submit" class="btn btn-secondary">Diventa Autista!</button>
+	</form>
+	
+	<div  th:replace="fragments/uploadImageModal :: uploadImageModal"></div>
+	<div  th:replace="fragments/uploadDriverLicenseImageModal :: uploadDriverLicenseImageModal"></div>
+	
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap-4.4.1.js"></script>
+</body>
+</html>

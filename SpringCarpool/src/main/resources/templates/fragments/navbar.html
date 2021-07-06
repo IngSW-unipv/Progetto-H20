@@ -5,20 +5,21 @@
 <title>Insert title here</title>
 
 <div th:fragment="navbar">
-  <div class="container">
+  <div class="container" style="z-index: 1;position: sticky;">
    <div class="row">
-   <div class="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+   <div class="alert" th:if="${errorMessage}" th:text="${errorMessage}" ></div>
      <nav class="navbar navbar-expand-lg narbar-light">
        <a class="navbar-brand mr-auto" href="/"><img src="img/logo.png" alt="Site logo">CARPOOL</a>
        <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span></button>
        
-       <div id="mainNav" class="navbar-collapse tm-bg-white collapse show" style="z-index: 1;">
+       <div id="mainNav" class="navbar-collapse tm-bg-white collapse show">
          <ul class="navbar-nav ml-auto">
            <li class="nav-item"><a class="nav-link" sec:authorize="!isFullyAuthenticated()" data-toggle="modal" data-target="#registerModal" >Sign Up </a></li>
            <li class="nav-item"><a class="nav-link" sec:authorize="!isFullyAuthenticated()" data-toggle="modal" data-target="#login1Modal" >Log In</a></li>
-           <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()"href="/pagePrenota">Prenota Viaggio <span class="sr-only">(current)</span></a></li>
-	       <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()"href="/pageProfilo">Profilo <span class="sr-only">(current)</span></a></li>
+           <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()"href="/">Mappa <span class="sr-only">(current)</span></a></li>
+	       <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()"href="/Profilo">Profilo <span class="sr-only">(current)</span></a></li>
+	       <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()"href="/ViaggiPrenotazioni">I tuoi viaggi e prenotazioni<span class="sr-only">(current)</span></a></li>
 	       <li class="nav-item"><a class="nav-link" sec:authorize="!isFullyAuthenticated()" href="#contacts">Contact Us</a></li>
 	       <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()" href="contacts">Contact Us</a></li>
            <li class="nav-item"><a class="nav-link" sec:authorize="isFullyAuthenticated()" href="javascript: document.logoutForm.submit()" > Log out  </a>
@@ -38,3 +39,4 @@
 
 </body>
 </html>
+

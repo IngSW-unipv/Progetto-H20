@@ -21,6 +21,13 @@
 
 }
 
+p { 
+	color: #000 !important; 
+	line-height: 1.9 !important;
+	font-size: 22px !important;
+}
+
+
 .descrizione_viaggio {
     margin: 10px;
     display: flex;

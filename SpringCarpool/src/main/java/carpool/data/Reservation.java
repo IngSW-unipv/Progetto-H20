@@ -53,9 +53,18 @@ public class Reservation {
 		this.deleted = false;
 	}
 	
-	public Reservation() {
+	//used for testing
+	public Reservation(long userId, long tripId, Date creationDate) {
+		this.userId = userId;
+		this.tripId = tripId;
+		this.creationDate = creationDate;
+		this.deleted = false;
+		this.paymentMade = false;
 	}
 	
+	public Reservation(){
+		
+	}
 
 	
 	public Boolean getPaymentMade() {

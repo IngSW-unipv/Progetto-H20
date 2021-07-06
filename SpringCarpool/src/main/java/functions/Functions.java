@@ -1,5 +1,6 @@
 package functions;
 
+import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
 
@@ -53,12 +54,18 @@ public  class Functions implements Comparator<Trip>{
 	    return Math.sqrt(distance);
 	}
 	
-	
-	/*
-	 * per filtrare viaggi in base alla data 
-	*/
-	
-	
+	//La funzione si aspetta in ingresso la lunghezza kilometri (o comunque qualcosa di prestabilito)
+	//Restituisce un periodo di tempo in secondi di tipo Duration
+		public static Duration estimatedTripDuration (double tripLength) {
+			int coefficiente = 36;
+			//Data una lunghezza, la moltiplico per un fattore che converta la lunghezza in durata in secondi
+			//Il coefficiente dipende dalla velocità ipotizzata
+			//Ad esempio se ho una velocità media di 100km/h, avrò 1 ora se il percorso è lungo 100km
+			long l1=(long)(tripLength*coefficiente);
+			//Converto tutto in secondi in tipo Duration
+			Duration d1 = Duration.ofSeconds(l1);
+			return d1;
+		}
 	
 	
 	

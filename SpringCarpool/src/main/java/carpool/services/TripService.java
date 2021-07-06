@@ -1,20 +1,20 @@
-
 package carpool.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import carpool.data.Car;
 import carpool.data.Reservation;
 import carpool.data.Trip;
+import carpool.repos.CarRepository;
 import carpool.repos.ReservationRepository;
 import carpool.repos.TripRepository;
-import functions.Functions;
 
 @Service
 public class TripService{
@@ -24,6 +24,9 @@ public class TripService{
 
 	@Autowired
 	private ReservationRepository reservationRepo;
+	
+	@Autowired
+	private CarRepository carRepo;
 
 
 	public void registerTrip(Trip trip, Long userId) {
@@ -43,12 +46,15 @@ public class TripService{
 
 		//All'inizio ci sono 0 posti prenotati, lo imposto
 		trip.setReservedSeats(0);
-		//Imposto la lunghezza del viaggio
-		trip.setDistance(Functions.distance(trip.getStartX(), trip.getStartY(), trip.getEndX(), trip.getEndY()));
+
 		trip.setDeleted(false);
 		trip.setEnded(false);
-		//Imposto il prezzo totale del viaggio in base alla distanza, da stabilire bene il fattore
-
+		
+		//Imposto la macchina usata per il viaggio ritrovando la macchina di default per lo specifico utente
+		Car car = carRepo.findDefaultByUserId(userId);
+		trip.setCarId(car.getCarId());
+		trip.setTotalSeats(car.getTotalSeats());
+		
 		//Salvo il viaggio nel DB
 		tripRepo.save(trip);
 		System.out.println("Creato un viaggio con id = " + userId);
@@ -100,56 +106,49 @@ public class TripService{
 		return false;
 	}
 
-	public void deleteTrip(Trip trip) {
-		ArrayList<Reservation> prenotazioni = (ArrayList<Reservation>) reservationRepo.findByTripId(trip.getTripId());
-		//Poi flaggo ogni prenotazione come cancellata e la salvo nel repo
-		for (Reservation i : prenotazioni) {
-			i.setDeleted(true);
-			reservationRepo.save(i);
+	public void deleteTrip(long tripId) {
 
-			//mandare mail per informare della cancellazione?
-		}
-		//Infine flaggo il viaggio stesso come cancellato e lo salvo nel repo
-		var check = tripRepo.findById(trip.getTripId());
+		//Controllo se il viaggio in questione esiste
+		var check = tripRepo.findById(tripId);
 		if (check.isPresent()) {
-		Trip foundTrip = check.get();
-		foundTrip.setDeleted(true);
-		tripRepo.save(foundTrip);
+			Trip foundTrip = check.get();
+			deleteTrip(foundTrip);
 		}
 	}
 	
-	public void deleteTripById(long tripId) {
-
-		var prenotazioni = reservationRepo.findByTripId(tripId);
-
+	//Metodo per segnare un viaggio e relative prenotazioni come cancellato
+	private void deleteTrip(Trip trip) {
+		//Prendo tutte le prenotazioni di quel viaggio
+		var reservations = reservationRepo.findByTripId(trip.getTripId());
 		//Poi flaggo ogni prenotazione come cancellata e la salvo nel repo
-		for (Reservation i : prenotazioni) {
-			i.setDeleted(true);
-			reservationRepo.save(i);
+		for (Reservation r : reservations) {
+			r.setDeleted(true);
+			reservationRepo.save(r);
 
-			//mandare mail per informare della cancellazione?
+			//Mandare e-mail per informare della cancellazione?
 		}
 		//Infine flaggo il viaggio stesso come cancellato e lo salvo nel repo
+		trip.setDeleted(true);
+		tripRepo.save(trip);
+	}
+
+	//Metodo per segnare un viaggio come concluso
+	
+	public void endTrip(long tripId) {
+	
+		//flaggo il viaggio come concluso e lo salvo nel repo
 		var check = tripRepo.findById(tripId);
 		if(check.isPresent())
 		{
-			Trip trip = check.get();
-			trip.setDeleted(true);
-			tripRepo.save(trip);
-		}
-	}
-
-	public void endTrip(Trip viaggio) {
-		//mandare mail per informare della cancellazione?
-		
-		//flaggo il viaggio come concluso e lo salvo nel repo
-		var check = tripRepo.findById(viaggio.getTripId());
-		if(check.isPresent())
-		{
-			Trip trip = check.get();
-			viaggio.setEnded(true);
-			tripRepo.save(trip);
+			endTrip(check.get());
 		}	
+	}
+	
+	public void endTrip(Trip trip) {
+		//flaggo il viaggio come concluso e lo salvo nel repo
+
+		trip.setEnded(true);
+		tripRepo.save(trip);	
 	}
 	
 	public void deleteTripsBeforeDate(Date date)
@@ -163,8 +162,9 @@ public class TripService{
 				//Lo imposto come concluso e lo salvo nel DB
 				if (t.getTripDate().compareTo(date) < 0) {
 					System.out.println("Scheduled: impostato come Concluso il viaggio con id: " + t.getTripId());
-					t.setEnded(true);
-					tripRepo.save(t);
+					endTrip(t);
+					/*t.setEnded(true);
+					tripRepo.save(t);*/
 				}
 			}
 		}

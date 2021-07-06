@@ -1,5 +1,6 @@
 package carpool;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ public class ScheduledTasks {
 	
 	//Questo è un metodo 'scheduled', si ripete da solo ogni tot tempo
 	//Imposto 10 minuti come tempo per ripetere periodicamente il metodo
-	@Scheduled(fixedRate = 600000)
+	@Scheduled(fixedRate = 60000)
 	public void deleteViaggiScaduti() {
 		//Prendo la data di oggi
-		Date date = new Date();
-		viaggioService.deleteTripsBeforeDate(date);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		Date yesterday = cal.getTime();
+		viaggioService.deleteTripsBeforeDate(yesterday);
 	}
 }

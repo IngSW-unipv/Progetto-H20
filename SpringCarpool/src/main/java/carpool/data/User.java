@@ -3,6 +3,7 @@
 package carpool.data;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -35,6 +36,8 @@ public class User {
 	@Column(nullable = true, length = 64)
     private String photos;
 	
+	private String driverPhoto;
+	
 	@Column(name = "phoneNumber", length = 20)
 	private String phoneNumber;
 	
@@ -63,8 +66,20 @@ public class User {
 				roles.remove(i);
 			}
 		}
-		
     }
+	
+	public void addRole(Role role)
+	{
+		roles.add(role);
+	}
+	
+	public void addRoles(List<Role> roles)
+	{
+		for(Role r : roles)
+		{
+			roles.add(r);
+		}
+	}
 	
 	public Long getUserId() {
 		return userId;
@@ -139,7 +154,31 @@ public class User {
   public String getPhotosImagePath() {
       if (photos == null || userId == null) return null;
        
-      return "/user-photos/" + userId + "/" + photos;
+      return "/user-photos/" + userId + "/profile/" + photos;
+  }
+  
+  public String getDriverPhotosImagePath() {
+      if (driverPhoto == null || userId == null) return null;
+       
+      return "/user-photos/" + userId + "/driver/" + driverPhoto;
   }
 
+	public String getDriverPhoto() {
+		return driverPhoto;
+	}
+	
+	public void setDriverPhoto(String driverPhoto) {
+		this.driverPhoto = driverPhoto;
+	}
+
+	public boolean hasRole(Role role)
+	{
+		String roleName = role.getName();
+		for (Role r : roles) {
+			if (r.getName().equals(roleName)){
+				return true;
+			}		
+		}
+		return false;
+	}
 }
